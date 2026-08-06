@@ -1,0 +1,5 @@
+/* Amharic (Ge'ez script) rendering — Bootstrap font stack lacks Ethiopic. */
+:lang(am),
+html[lang='am'] body {
+    font-family: 'Noto Sans Ethiopic', 'Nyala', 'Abyssinica SIL', system-ui, sans-serif;
+}

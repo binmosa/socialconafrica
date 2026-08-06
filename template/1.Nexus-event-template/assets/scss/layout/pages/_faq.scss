@@ -1,0 +1,210 @@
+@use '../../utils/' as * ;
+
+/*============= FAQ CSS AREA ===============*/
+.faq6-section-area {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: #F3F3F3;
+
+    .accordion-area {
+        position: relative;
+        z-index: 1;
+        .accordion {
+           .accordion-item {
+            padding: 0;
+            border-radius: 10px;
+            background: var(--ztc-bg-bg-11);
+            border: none;
+            button {
+                color: var(--ztc-text-text-5);
+                font-family: var(--ztc-family-font1);
+                font-size: var(--ztc-font-size-font-s28);
+                font-style: normal;
+                font-weight: var(--ztc-weight-semibold);
+                line-height: 28px;
+                box-shadow: none;  
+                padding: 24px 30px;    
+                background: var(--ztc-bg-bg-1);
+                border-radius: 8px;
+                @media #{$xs} {
+                    line-height: 36px;
+                }
+                &::after {
+                    filter: brightness(0) invert(1);
+                }
+                &::before {
+                    position: absolute;
+                    content: "";
+                    height: 48px;
+                    width: 48px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    transition: all .4s;
+                    background: var(--ztc-bg-bg-10);
+                    right: 16px;
+                }
+                &:not(.collapsed) {
+                    background: none;
+                    transition: all .4s;
+                    border: none;
+                    color: var(--ztc-text-text-1);
+                    &::after {
+                        filter: brightness(0);
+                    }
+                    &::before {
+                        background: var(--ztc-bg-bg-1);
+                        color: var(--ztc-text-text-12);
+                    }
+                }
+            }
+            .accordion-body {
+                padding: 0 30px 24px 30px;
+                p {
+                    color: var(--ztc-text-text-1);
+                    font-family: var(--ztc-family-font1);
+                    font-size: var(--ztc-font-size-font-s18);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-regular);
+                    line-height: 26px;
+                    opacity: 80%;      
+                }
+            }
+           } 
+        }
+    }
+}
+
+// Inner pages //
+.faq-inner-section-area {
+    position: relative;
+    z-index: 1;
+    padding: 120px 0 0;
+    @media #{$xs} {
+        padding: 60px 0 0;
+    }
+    @media #{$md} {
+        padding: 60px 0 0;
+    }
+    .faq-widget-area {
+        ul {
+            display: inline-block;
+            text-align: center;
+            li {
+                display: inline-block;
+                button{
+                    color: var(--ztc-text-text-2);
+                    text-align: center;
+                    font-family: var(--ztc-font-size-font-s28);
+                    font-size: var(--ztc-font-size-font-s18);
+                    font-style: normal;
+                    font-weight: var(--ztc-weight-bold);
+                    line-height: 18px;
+                    letter-spacing: -0.36px;
+                    text-transform: uppercase; 
+                    padding: 16px 20px;
+                    border-radius: 8px;
+                    background: #F6F6FF;
+                    margin: 0 16px 0 0;
+                    @media #{$md} {
+                        margin-bottom: 10px;
+                        margin-left: 0;
+                    } 
+                    @media #{$xs} {
+                        margin-bottom: 10px;
+                        margin-left: 0;
+                    } 
+                    &.active {
+                        background: var(--ztc-bg-bg-3);
+                        transition: all .4s;
+                        color: var(--ztc-text-text-1);
+                    }              
+                }
+            }
+        }
+        .tab-content {
+            .tab-pane {
+                .faq-section-area {
+                    .accordian-area {
+                        .accordion-item {
+                            border: none;
+                            background: var(--ztc-bg-bg-3);
+                            border-radius: 16px;
+                            padding: 0;
+                            button {
+                                color: var(--ztc-text-text-2);
+                                font-family: var(--ztc-family-font2);
+                                font-size: var(--ztc-font-size-font-s32);
+                                font-style: normal;
+                                font-weight: var(--ztc-weight-bold);
+                                line-height: 32px; 
+                                letter-spacing: -0.96px;
+                                text-transform: uppercase; 
+                                border: 1px solid #E7E7E7;
+                                box-shadow: none;
+                                padding: 40px; 
+                                border-radius: 14px;
+                                
+                                @media #{$xs} {
+                                    padding: 20px !important;
+                                    font-size: var(--ztc-font-size-font-s24);
+                                    line-height: 30px;
+                                }
+                                @media #{$md} {
+                                    line-height: 40px;
+                                }
+                                &.accordion-button:not(.collapsed) {
+                                    background: none;
+                                    transition: all .4s;
+                                    color: var(--ztc-text-text-1);
+                                    border: none;
+                                    padding: 40px 40px 20px 40px;
+                                    &::before {
+                                        background: var(--ztc-text-text-1);
+                                    }
+                                    &::after {
+                                        filter: brightness(0);
+                                    }
+                                }   
+                                &::before {
+                                    height: 48px;
+                                    width: 48px;
+                                    background: var(--ztc-bg-bg-3);
+                                    transition: all .4s;
+                                    border-radius: 50%;
+                                    content: "";
+                                    position: absolute;
+                                    right: 25px;
+                                    @media #{$xs} {
+                                        right: 7px;
+                                    }
+                                } 
+                                &::after {
+                                    z-index: 1;
+                                    filter: brightness(0) invert(1);
+                                }      
+                            }
+                            .accordion-body {
+                                padding: 0;
+                                p {
+                                    color: var(--ztc-text-text-1);
+                                    font-family: var(--ztc-family-font1);
+                                    font-size: var(--ztc-font-size-font-s20);
+                                    font-style: normal;
+                                    font-weight: var(--ztc-weight-semibold);
+                                    line-height: 30px; 
+                                    padding: 0 200px 40px 40px; 
+                                    text-align: start;
+                                    @media #{$xs} {
+                                        padding: 0 20px 20px 20px;
+                                    }                            
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/*============= FAQ CSS AREA ===============*/
