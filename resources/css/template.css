@@ -406,22 +406,18 @@ body {
     z-index: -1;
 }
 
-.sca-hero2-title {
-    color: #fff;
-    font-family: var(--ztc-family-font2, sans-serif);
-    font-size: clamp(46px, 8.6vw, 138px);
-    line-height: 0.95;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    margin: 0;
+.sca-hero2-logo {
+    display: block;
+    width: min(720px, 82vw);
+    height: auto;
+    filter: drop-shadow(0 16px 44px rgba(0, 0, 0, 0.5));
 }
 
 .sca-hero2-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin: 26px 0 34px;
+    margin: 30px 0 36px;
 }
 
 .sca-chip {
@@ -430,14 +426,17 @@ body {
     gap: 10px;
     padding: 12px 20px;
     border-radius: 70px;
-    background: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.13);
     backdrop-filter: blur(5px);
-    color: #fff;
-    font-weight: 700;
+    color: rgba(255, 255, 255, 0.94);
+    font-weight: 400;
     font-size: 15px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .sca-chip i {
@@ -532,6 +531,323 @@ body {
     mask-composite: intersect;
 }
 
+/* ---- About collage: capsule-masked photos + floating brand chips ---------- */
+.sca-collage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    padding: 20px 10px 40px 0;
+}
+
+.sca-collage .sca-collage-flower {
+    position: absolute;
+    top: -50px;
+    left: -70px;
+    width: 220px;
+    opacity: 0.45;
+    z-index: -1;
+}
+
+.sca-collage .sca-collage-a img,
+.sca-collage .sca-collage-b img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sca-collage .sca-collage-a {
+    border-radius: 190px 190px 26px 26px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5.4;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sca-collage .sca-collage-b {
+    border-radius: 26px 26px 190px 190px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5.4;
+    margin-top: 56px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sca-collage .sca-collage-ring {
+    position: absolute;
+    left: 50%;
+    top: 44%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    z-index: 2;
+}
+
+.sca-collage .sca-collage-chip {
+    position: absolute;
+    z-index: 3;
+}
+
+.sca-collage .sca-collage-chip.chip-a {
+    top: 4px;
+    right: -8px;
+}
+
+.sca-collage .sca-collage-chip.chip-b {
+    bottom: 10px;
+    left: -10px;
+}
+
+.sca-collage .sca-collage-chip .sca-chip {
+    background: rgba(17, 8, 43, 0.82);
+    border-color: rgba(255, 255, 255, 0.22);
+    font-weight: 700;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 767px) {
+    .sca-collage {
+        padding-right: 0;
+    }
+
+    .sca-collage .sca-collage-a {
+        border-radius: 110px 110px 20px 20px;
+    }
+
+    .sca-collage .sca-collage-b {
+        border-radius: 20px 20px 110px 110px;
+        margin-top: 34px;
+    }
+
+    .sca-collage .sca-collage-chip.chip-a {
+        right: 0;
+    }
+
+    .sca-collage .sca-collage-chip.chip-b {
+        left: 0;
+    }
+}
+
+/* ---- Leaders: light band, large capsule portraits, dark type -------------- */
+.sca-leaders-light {
+    background: #f7f5fb;
+    border-radius: 36px;
+    padding: 70px 54px;
+    position: relative;
+    overflow: hidden;
+}
+
+.sca-leaders-light::before {
+    content: '';
+    position: absolute;
+    top: -140px;
+    right: -140px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 10, 157, 0.14), transparent 70%);
+    pointer-events: none;
+}
+
+.sca-leaders-light .sca-eyebrow .sca-eyebrow-text {
+    background: rgba(17, 8, 43, 0.06);
+    border-color: rgba(17, 8, 43, 0.12);
+    color: #11082b;
+}
+
+.sca-leaders-light .sca-leaders-lead {
+    color: rgba(17, 8, 43, 0.62);
+}
+
+.sca-leader-panel {
+    background: #fff;
+    border-radius: 26px;
+    padding: 34px;
+    height: 100%;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    box-shadow: 0 24px 60px rgba(17, 8, 43, 0.1);
+    border-top: 4px solid var(--sca-accent, var(--sca-pink));
+}
+
+.sca-leader-panel .sca-leader-photo {
+    flex-shrink: 0;
+    width: 168px;
+    height: 208px;
+    border-radius: 100px 100px 22px 22px;
+    overflow: hidden;
+    background: linear-gradient(160deg, rgba(255, 10, 157, 0.12), rgba(124, 92, 184, 0.12));
+}
+
+.sca-leader-panel .sca-leader-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+.sca-leader-panel .sca-quote-mark {
+    color: var(--sca-accent, var(--sca-pink));
+    font-size: 40px;
+}
+
+.sca-leader-panel p {
+    color: rgba(17, 8, 43, 0.72);
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+.sca-leader-panel h4 {
+    color: #11082b;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.sca-leader-panel .sca-meta {
+    color: var(--sca-accent, var(--sca-pink));
+}
+
+@media (max-width: 991px) {
+    .sca-leaders-light {
+        padding: 46px 22px;
+        border-radius: 26px;
+    }
+
+    .sca-leader-panel {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* ---- Persona cards: capsule corners, accent wash + growing base rule ------ */
+.sca-persona {
+    overflow: hidden;
+    position: relative;
+}
+
+.row > div:nth-child(odd) .sca-persona {
+    border-top-left-radius: 74px;
+}
+
+.row > div:nth-child(even) .sca-persona {
+    border-top-right-radius: 74px;
+}
+
+.sca-persona::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 4px;
+    width: 0;
+    border-radius: 4px 4px 0 0;
+    background: var(--sca-accent, var(--sca-pink));
+    transition: width 0.45s;
+}
+
+.sca-persona:hover::after {
+    width: 62%;
+}
+
+.sca-persona:hover {
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--sca-accent, var(--sca-pink)) 14%, transparent), rgba(255, 255, 255, 0.05));
+}
+
+.sca-persona:hover .sca-ring .sca-ring-inner {
+    box-shadow: 0 0 0 12px color-mix(in srgb, var(--sca-accent, var(--sca-pink)) 15%, transparent);
+}
+
+/* ---- Sponsor cards: white logo tile + tier accent -------------------------- */
+.sca-sponsor-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 22px;
+    padding: 28px;
+    height: 100%;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.sca-sponsor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--tier-accent, var(--sca-pink));
+    opacity: 0.85;
+}
+
+.sca-sponsor-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--tier-accent, var(--sca-pink));
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.35);
+}
+
+.sca-sponsor-card .sca-sponsor-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.sca-sponsor-card .sca-logo-tile {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+}
+
+.sca-sponsor-card .sca-logo-tile img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.sca-sponsor-card .sca-logo-tile .sca-logo-mono {
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 22px;
+    color: #11082b;
+}
+
+.sca-sponsor-card h3 {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.sca-sponsor-card p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.sca-sponsor-card .sca-sponsor-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    color: var(--tier-accent, var(--sca-pink));
+    font-weight: 700;
+    font-size: 14px;
+}
+
 /* ---- Boarding-pass ticket widget (index2 "Get Your Tickets Now" concept) - */
 .sca-boarding {
     display: grid;
@@ -552,10 +868,11 @@ body {
     mask-composite: intersect;
 }
 
-/* Vertical brand rail — logo yellow, dark type (index2 colorway). */
+/* Vertical brand rail — takes the selected plan's logo color. */
 .sca-boarding .sca-boarding-rail {
-    background: var(--sca-yellow);
+    background: var(--fare-accent, var(--sca-yellow));
     position: relative;
+    transition: background 0.45s;
 }
 
 .sca-boarding .sca-boarding-rail span {
@@ -613,7 +930,7 @@ body {
 }
 
 .sca-boarding .sca-fare-tabs button.active {
-    background: var(--sca-yellow);
+    background: var(--fare-accent, var(--sca-yellow));
     color: #0b0614;
 }
 
@@ -627,7 +944,8 @@ body {
 }
 
 .sca-boarding .sca-boarding-main h2 span {
-    color: var(--sca-yellow);
+    color: var(--fare-accent, var(--sca-yellow));
+    transition: color 0.45s;
 }
 
 .sca-boarding .sca-boarding-main .sca-fare-sub {
@@ -718,7 +1036,7 @@ body {
     justify-content: center;
     gap: 10px;
     width: 100%;
-    background: var(--sca-yellow);
+    background: var(--fare-accent, var(--sca-yellow));
     color: #0b0614;
     font-family: var(--ztc-family-font2, sans-serif);
     font-weight: 800;
@@ -727,11 +1045,11 @@ body {
     letter-spacing: 0.04em;
     padding: 16px 20px;
     border-radius: 14px;
-    transition: all 0.3s;
+    transition: all 0.4s;
 }
 
 .sca-boarding .sca-boarding-stub .sca-stub-buy:hover {
-    background: #ffd94d;
+    filter: brightness(1.12);
     color: #0b0614;
     transform: translateY(-2px);
 }
@@ -1053,116 +1371,6 @@ body {
         white-space: normal;
         font-size: 13px;
     }
-}
-
-/* ---- Speaker cards v2: zoom + veil + staggered colored socials ----------- */
-.team-widget-slider .team-single-boxarea .img1 {
-    overflow: hidden;
-    border-radius: 16px;
-    position: relative;
-}
-
-.team-widget-slider .team-single-boxarea .img1 > img {
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.team-widget-slider .team-single-boxarea:hover .img1 > img {
-    transform: scale(1.09) rotate(-1.5deg);
-}
-
-.team-widget-slider .team-single-boxarea .img1::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(200deg, transparent 40%, rgba(255, 10, 157, 0.55) 100%);
-    opacity: 0;
-    transition: opacity 0.5s;
-    pointer-events: none;
-    border-radius: 16px;
-}
-
-.team-widget-slider .team-single-boxarea:hover .img1::after {
-    opacity: 1;
-}
-
-/* Socials: vertical stack on the right, staggered slide-in, one logo color each. */
-.team-widget-slider .team-single-boxarea .img1 ul {
-    left: auto;
-    right: 14px;
-    top: 14px;
-    bottom: auto;
-    margin: 0;
-    width: auto;
-    background: none;
-    border-radius: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    visibility: visible;
-    opacity: 1;
-    z-index: 2;
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li {
-    display: block;
-    transform: translateX(64px);
-    opacity: 0;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s;
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li:nth-child(2) {
-    transition-delay: 0.07s;
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li:nth-child(3) {
-    transition-delay: 0.14s;
-}
-
-.team-widget-slider .team-single-boxarea:hover .img1 ul li {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li a {
-    height: 42px;
-    width: 42px;
-    line-height: 42px;
-    border-radius: 50%;
-    color: #fff;
-    background: var(--sca-blue);
-    display: inline-block;
-    text-align: center;
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li:nth-child(1) a {
-    background: var(--sca-blue);
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li:nth-child(2) a {
-    background: var(--sca-green);
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li:nth-child(3) a {
-    background: var(--sca-red);
-}
-
-.team-widget-slider .team-single-boxarea .img1 ul li a:hover {
-    background: var(--sca-pink);
-}
-
-/* Name link: gradient underline grows on hover. */
-.team-widget-slider .team-single-boxarea .content-area a {
-    background-image: linear-gradient(90deg, var(--sca-pink), var(--sca-yellow));
-    background-repeat: no-repeat;
-    background-position: bottom left;
-    background-size: 0% 3px;
-    transition: background-size 0.45s;
-    padding-bottom: 4px;
-}
-
-.team-widget-slider .team-single-boxarea:hover .content-area a {
-    background-size: 100% 3px;
 }
 
 /* ---- Language switcher: globe button + glass dropdown --------------------- */

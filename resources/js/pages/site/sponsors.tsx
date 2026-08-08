@@ -1,5 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { CSSProperties, useState } from 'react';
+
+const TIER_ACCENTS: Record<string, string> = {
+    title: 'var(--sca-pink)',
+    platinum: '#7C5CB8',
+    gold: 'var(--sca-yellow)',
+    supporting: 'var(--sca-green)',
+};
 
 import { FilterChips } from '@/components/site/filter-chips';
 import { InnerPageHeader } from '@/components/site/inner-page-header';
@@ -60,11 +67,25 @@ export default function Sponsors({ meta, tiers, sponsors }: SponsorsProps) {
                         {visible.map((sponsor) => (
                             <div key={sponsor.name} className="col-lg-4 col-md-6">
                                 <a href={sponsor.url ?? '#'} target="_blank" rel="noreferrer" style={{ display: 'block', height: '100%' }}>
-                                    <div className="sca-card">
-                                        <span className={`sca-badge tier-${sponsor.tier.slug}`}>{sponsor.tier.name}</span>
-                                        <div className="space16" />
+                                    <div
+                                        className="sca-sponsor-card"
+                                        style={{ '--tier-accent': TIER_ACCENTS[sponsor.tier.slug] ?? 'var(--sca-pink)' } as CSSProperties}
+                                    >
+                                        <div className="sca-sponsor-top">
+                                            <span className="sca-logo-tile">
+                                                {sponsor.logo ? (
+                                                    <img src={sponsor.logo} alt={sponsor.name} loading="lazy" />
+                                                ) : (
+                                                    <span className="sca-logo-mono">{sponsor.name.slice(0, 2).toUpperCase()}</span>
+                                                )}
+                                            </span>
+                                            <span className={`sca-badge tier-${sponsor.tier.slug}`}>{sponsor.tier.name}</span>
+                                        </div>
                                         <h3>{sponsor.name}</h3>
                                         <p>{sponsor.description}</p>
+                                        <span className="sca-sponsor-link">
+                                            {t('common.learn_more')} <i className="fa-solid fa-arrow-up-right-from-square" />
+                                        </span>
                                     </div>
                                 </a>
                             </div>

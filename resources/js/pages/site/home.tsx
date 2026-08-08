@@ -20,6 +20,20 @@ const arrowIcon = (
 
 const ACCENTS = ['var(--sca-green)', 'var(--sca-yellow)', 'var(--sca-red)', 'var(--sca-blue)'];
 
+/* Each pass class owns one logo color — the whole ticket recolors on selection. */
+const FARE_ACCENTS: Record<string, string> = {
+    'friday-free': 'var(--sca-green)',
+    creator: 'var(--sca-yellow)',
+    vip: 'var(--sca-blue)',
+};
+
+const TIER_ACCENTS: Record<string, string> = {
+    title: 'var(--sca-pink)',
+    platinum: '#7C5CB8',
+    gold: 'var(--sca-yellow)',
+    supporting: 'var(--sca-green)',
+};
+
 const PLATFORMS = [
     { icon: 'fa-brands fa-tiktok', name: 'TikTok' },
     { icon: 'fa-brands fa-instagram', name: 'Instagram' },
@@ -126,9 +140,7 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                 <img src="/template/img/elements/elements23.png" alt="" className="sca-hero2-flower keyframe5" />
                 <div className="container">
                     <Reveal direction="up" as="h1">
-                        <span className="sca-hero2-title">
-                            {t('hero.title_1')} <span className="sca-grad">{t('hero.title_2')}</span>
-                        </span>
+                        <img src="/image/logo-full.png" alt={`${t('hero.title_1')} ${t('hero.title_2')}`} className="sca-hero2-logo" />
                     </Reveal>
                     <div className="sca-hero2-chips">
                         <span className="sca-chip" style={{ '--sca-accent': 'var(--sca-red)' } as CSSProperties}>
@@ -249,23 +261,24 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-6">
-                                <div className="about-images-area">
-                                    <div className="row">
-                                        <div className="col-lg-6 col-md-6">
-                                            <div className="author-img">
-                                                <img src="/template/img/elements/elements25.png" alt="" loading="lazy" />
-                                            </div>
-                                            <div className="space40" />
-                                            <div className="img1">
-                                                <img src="/template/img/all-images/about/about-img4.png" alt="" loading="lazy" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6">
-                                            <div className="space30 d-md-none d-block" />
-                                            <div className="img1">
-                                                <img src="/template/img/all-images/about/about-img5.png" alt="" loading="lazy" />
-                                            </div>
-                                        </div>
+                                <div className="sca-collage">
+                                    <img src="/template/img/elements/elements23.png" alt="" className="sca-collage-flower keyframe5" />
+                                    <div className="sca-collage-a">
+                                        <img src="/template/img/all-images/about/about-img4.png" alt="" loading="lazy" />
+                                    </div>
+                                    <div className="sca-collage-b">
+                                        <img src="/template/img/all-images/about/about-img5.png" alt="" loading="lazy" />
+                                    </div>
+                                    <img src="/template/img/elements/elements7.png" alt="" className="sca-collage-ring keyframe5" />
+                                    <div className="sca-collage-chip chip-a aniamtion-key-1">
+                                        <span className="sca-chip" style={{ '--sca-accent': 'var(--sca-red)' } as CSSProperties}>
+                                            <i className="fa-regular fa-calendar" /> {t('hero.date')}
+                                        </span>
+                                    </div>
+                                    <div className="sca-collage-chip chip-b aniamtion-key-4">
+                                        <span className="sca-chip" style={{ '--sca-accent': 'var(--sca-green)' } as CSSProperties}>
+                                            <i className="fa-solid fa-location-dot" /> {t('header.address')}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -308,43 +321,46 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                     </div>
                 </div>
 
-                {/* Leaders' messages — rotating-ring monogram medals */}
+                {/* Leaders' messages — light band, large capsule portraits */}
                 <div className="sp6 sca-section">
-                    <img
-                        src="/template/img/elements/elements24.png"
-                        alt=""
-                        style={{ position: 'absolute', top: -80, left: 0, width: '100%', zIndex: -1, opacity: 0.7 }}
-                    />
                     <div className="container">
-                        <div className="row">
-                            <div className="col-lg-8 m-auto">
-                                <div className="heading4 text-center space-margin60">
-                                    <SectionEyebrow label={t('home.leaders.eyebrow')} icon="fa-solid fa-crown" accent="var(--sca-yellow)" />
-                                    <div className="space20" />
-                                    <p style={{ color: 'rgba(255,255,255,0.75)' }}>{t('home.leaders.body')}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row" style={{ rowGap: 24 }}>
-                            {leaders.map((leader) => (
-                                <div key={leader.name} className="col-lg-6">
-                                    <div className="sca-card sca-leader-card">
-                                        <div className="sca-medal">
-                                            <img src="/template/img/elements/elements7.png" alt="" className="sca-medal-ring keyframe5" />
-                                            <span className="sca-medal-core">
-                                                {leader.photo ? <img src={leader.photo} alt={leader.name} /> : initials(leader.name)}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="sca-quote-mark">&ldquo;</span>
-                                            <p>{leader.quote}</p>
-                                            <div className="space24" />
-                                            <h4 style={{ marginBottom: 4 }}>{leader.name}</h4>
-                                            <span className="sca-meta">{leader.title}</span>
-                                        </div>
+                        <div className="sca-leaders-light">
+                            <div className="row">
+                                <div className="col-lg-8 m-auto">
+                                    <div className="heading4 text-center space-margin60">
+                                        <SectionEyebrow label={t('home.leaders.eyebrow')} icon="fa-solid fa-crown" accent="var(--sca-yellow)" />
+                                        <div className="space20" />
+                                        <p className="sca-leaders-lead">{t('home.leaders.body')}</p>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
+                            <div className="row" style={{ rowGap: 26 }}>
+                                {leaders.map((leader, i) => (
+                                    <div key={leader.name} className="col-lg-6">
+                                        <div
+                                            className="sca-leader-panel"
+                                            style={{ '--sca-accent': i % 2 === 0 ? 'var(--sca-green)' : 'var(--sca-blue)' } as CSSProperties}
+                                        >
+                                            <div className="sca-leader-photo">
+                                                {leader.photo ? (
+                                                    <img src={leader.photo} alt={leader.name} />
+                                                ) : (
+                                                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 40, fontWeight: 800, color: '#11082b' }}>
+                                                        {initials(leader.name)}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <span className="sca-quote-mark">&ldquo;</span>
+                                                <p>{leader.quote}</p>
+                                                <div className="space24" />
+                                                <h4>{leader.name}</h4>
+                                                <span className="sca-meta">{leader.title}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -454,7 +470,7 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                             {personas.map((persona, i) => (
                                 <div key={persona.title} className="col-lg-4 col-md-6">
                                     <div
-                                        className="sca-card text-center"
+                                        className="sca-card sca-persona text-center"
                                         style={{ '--sca-accent': ACCENTS[i % ACCENTS.length] } as CSSProperties}
                                     >
                                         <span className="sca-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
@@ -491,7 +507,10 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                         </div>
                         {fare && (
                             <Reveal direction="up" as="div">
-                                <div className="sca-boarding">
+                                <div
+                                    className="sca-boarding"
+                                    style={{ '--fare-accent': FARE_ACCENTS[fare.slug] ?? 'var(--sca-yellow)' } as CSSProperties}
+                                >
                                     <div className="sca-boarding-rail">
                                         <span>SocialCon Africa • 2026</span>
                                     </div>
@@ -626,11 +645,25 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                             {sponsors.map((sponsor) => (
                                 <div key={sponsor.name} className="col-lg-4 col-md-6">
                                     <a href={sponsor.url ?? '#'} target="_blank" rel="noreferrer" style={{ display: 'block', height: '100%' }}>
-                                        <div className="sca-card sca-wipe">
-                                            <span className={`sca-badge tier-${sponsor.tier.slug}`}>{sponsor.tier.name}</span>
-                                            <div className="space16" />
+                                        <div
+                                            className="sca-sponsor-card"
+                                            style={{ '--tier-accent': TIER_ACCENTS[sponsor.tier.slug] ?? 'var(--sca-pink)' } as CSSProperties}
+                                        >
+                                            <div className="sca-sponsor-top">
+                                                <span className="sca-logo-tile">
+                                                    {sponsor.logo ? (
+                                                        <img src={sponsor.logo} alt={sponsor.name} loading="lazy" />
+                                                    ) : (
+                                                        <span className="sca-logo-mono">{sponsor.name.slice(0, 2).toUpperCase()}</span>
+                                                    )}
+                                                </span>
+                                                <span className={`sca-badge tier-${sponsor.tier.slug}`}>{sponsor.tier.name}</span>
+                                            </div>
                                             <h3>{sponsor.name}</h3>
                                             <p>{sponsor.description}</p>
+                                            <span className="sca-sponsor-link">
+                                                {t('common.learn_more')} <i className="fa-solid fa-arrow-up-right-from-square" />
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
