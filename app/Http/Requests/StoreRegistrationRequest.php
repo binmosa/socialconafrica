@@ -24,9 +24,6 @@ class StoreRegistrationRequest extends FormRequest
             'country' => ['required', 'string', 'max:100'],
             'organization' => ['nullable', 'string', 'max:150'],
             'ticket_tier' => ['required', 'string', 'exists:ticket_tiers,slug'],
-            'hotel' => ['required', 'string', 'exists:hotels,slug'],
-            'addons' => ['array'],
-            'addons.*' => ['string', 'distinct', 'exists:addons,slug'],
             'payment_method' => ['required', 'in:credit_card,paypal,bank_transfer'],
         ];
     }

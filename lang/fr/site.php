@@ -261,6 +261,8 @@ return [
             'bank_transfer' => 'Virement bancaire',
             'secure_note' => 'Toutes les transactions sont sécurisées et chiffrées.',
         ],
+        'billing' => 'Détails de facturation',
+        'your_ticket' => 'Votre billet',
         'previous' => 'Précédent',
         'next' => 'Suivant',
         'next_pass' => 'Suivant : choisir votre pass',

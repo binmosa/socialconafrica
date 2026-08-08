@@ -316,6 +316,33 @@ body {
     }
 }
 
+/* Solid accent action button (checkout, standalone forms). */
+.sca-buy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: var(--sca-pink);
+    color: #0b0614;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.35s;
+}
+
+.sca-buy-btn:hover {
+    filter: brightness(1.12);
+    transform: translateY(-2px);
+    color: #0b0614;
+}
+
 /* Premium color-only section backgrounds (replace the low-res template JPGs). */
 .sca-bg {
     background:
@@ -972,7 +999,7 @@ body {
     line-height: 1.6;
 }
 
-.sca-boarding .sca-perk-list li {
+.sca-perk-list li {
     color: rgba(255, 255, 255, 0.88);
     font-size: 16px;
     line-height: 1.6;
@@ -981,7 +1008,7 @@ body {
     margin-bottom: 10px;
 }
 
-.sca-boarding .sca-perk-list li::before {
+.sca-perk-list li::before {
     content: '\2713';
     position: absolute;
     left: 0;

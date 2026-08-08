@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRegistrationRequest;
-use App\Models\Addon;
 use App\Models\Attendee;
-use App\Models\Hotel;
 use App\Models\Order;
 use App\Models\TicketTier;
 use Illuminate\Http\RedirectResponse;
@@ -38,20 +36,6 @@ class RegistrationController extends Controller
                     'perks' => $tier->getTranslation('perks', $locale) ?: [],
                     'badge' => $tier->getTranslation('badge', $locale),
                 ]),
-            'hotels' => Hotel::orderBy('sort_order')
-                ->get()
-                ->map(fn (Hotel $hotel): array => [
-                    'slug' => $hotel->slug,
-                    'name' => $hotel->name,
-                    'note' => $hotel->getTranslation('note', $locale),
-                ]),
-            'addons' => Addon::orderBy('sort_order')
-                ->get()
-                ->map(fn (Addon $addon): array => [
-                    'slug' => $addon->slug,
-                    'name' => $addon->getTranslation('name', $locale),
-                    'priceMinor' => $addon->price_minor,
-                ]),
         ]);
     }
 
@@ -60,10 +44,8 @@ class RegistrationController extends Controller
         $validated = $request->validated();
 
         $tier = TicketTier::where('slug', $validated['ticket_tier'])->firstOrFail();
-        $hotel = Hotel::where('slug', $validated['hotel'])->firstOrFail();
-        $addons = Addon::whereIn('slug', $validated['addons'] ?? [])->get();
 
-        $order = DB::transaction(function () use ($validated, $tier, $hotel, $addons) {
+        $order = DB::transaction(function () use ($validated, $tier) {
             $attendee = Attendee::create([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
@@ -74,16 +56,13 @@ class RegistrationController extends Controller
                 'locale' => app()->getLocale(),
             ]);
 
-            $total = $tier->price_minor + $addons->sum('price_minor');
-
             $order = Order::create([
                 'attendee_id' => $attendee->id,
                 'ticket_tier_id' => $tier->id,
-                'hotel_id' => $hotel->id,
                 'status' => 'pending',
                 'payment_method' => $validated['payment_method'],
-                'subtotal_minor' => $total,
-                'total_minor' => $total,
+                'subtotal_minor' => $tier->price_minor,
+                'total_minor' => $tier->price_minor,
                 'currency' => $tier->currency,
             ]);
 
@@ -94,17 +73,6 @@ class RegistrationController extends Controller
                 'quantity' => 1,
                 'line_total_minor' => $tier->price_minor,
             ]);
-
-            foreach ($addons as $addon) {
-                $order->items()->create([
-                    'item_type' => 'addon',
-                    'addon_id' => $addon->id,
-                    'description' => $addon->getTranslation('name', 'en'),
-                    'unit_price_minor' => $addon->price_minor,
-                    'quantity' => 1,
-                    'line_total_minor' => $addon->price_minor,
-                ]);
-            }
 
             return $order;
         });

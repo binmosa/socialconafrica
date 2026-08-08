@@ -261,6 +261,8 @@ return [
             'bank_transfer' => 'የባንክ ዝውውር',
             'secure_note' => 'ሁሉም ግብይቶች ደህንነታቸው የተጠበቀና የተመሰጠሩ ናቸው።',
         ],
+        'billing' => 'የክፍያ መረጃ',
+        'your_ticket' => 'ትኬትዎ',
         'previous' => 'ወደ ኋላ',
         'next' => 'ቀጣይ',
         'next_pass' => 'ቀጣይ፡ ፓስዎን ይምረጡ',

@@ -29,13 +29,11 @@ class RegistrationTest extends TestCase
             'country' => 'Ethiopia',
             'organization' => 'Creative Hub',
             'ticket_tier' => 'creator',
-            'hotel' => 'skylight',
-            'addons' => ['airport-transfer', 'gala-after-party'],
             'payment_method' => 'credit_card',
         ], $overrides);
     }
 
-    public function test_registration_persists_attendee_order_and_items_with_server_computed_totals(): void
+    public function test_registration_persists_attendee_order_and_ticket_item(): void
     {
         $response = $this->from('/en/register')->post('/en/register', $this->payload([
             // Client-sent price fields must be ignored.
@@ -52,31 +50,27 @@ class RegistrationTest extends TestCase
         $order = Order::with('items')->firstOrFail();
         $this->assertSame('pending', $order->status);
         $this->assertSame('credit_card', $order->payment_method);
-        // Creator $199.00 + transfer $40.00 + after-party $90.00 = $329.00.
-        $this->assertSame(32900, $order->total_minor);
-        $this->assertCount(3, $order->items);
-        $this->assertSame(19900, $order->items->firstWhere('item_type', 'ticket')->unit_price_minor);
+        $this->assertNull($order->hotel_id);
+        $this->assertSame(19900, $order->total_minor);
+        $this->assertCount(1, $order->items);
+        $this->assertSame('ticket', $order->items->first()->item_type);
+        $this->assertSame(19900, $order->items->first()->unit_price_minor);
     }
 
-    public function test_free_pass_without_addons_totals_zero(): void
+    public function test_free_pass_totals_zero(): void
     {
-        $this->post('/en/register', $this->payload([
-            'ticket_tier' => 'friday-free',
-            'addons' => [],
-        ]))->assertSessionHas('success');
+        $this->post('/en/register', $this->payload(['ticket_tier' => 'friday-free']))
+            ->assertSessionHas('success');
 
         $this->assertSame(0, Order::firstOrFail()->total_minor);
     }
 
-    public function test_vip_with_all_addons_totals_824(): void
+    public function test_vip_pass_totals_499(): void
     {
-        $this->post('/en/register', $this->payload([
-            'ticket_tier' => 'vip',
-            'addons' => ['airport-transfer', 'addis-tour', 'advanced-workshop', 'gala-after-party'],
-        ]))->assertSessionHas('success');
+        $this->post('/en/register', $this->payload(['ticket_tier' => 'vip']))
+            ->assertSessionHas('success');
 
-        // $499 + $40 + $75 + $120 + $90 = $824.00
-        $this->assertSame(82400, Order::firstOrFail()->total_minor);
+        $this->assertSame(49900, Order::firstOrFail()->total_minor);
     }
 
     public function test_unknown_tier_or_payment_method_is_rejected(): void

@@ -261,6 +261,8 @@ return [
             'bank_transfer' => 'Bank Transfer',
             'secure_note' => 'All transactions are secure and encrypted.',
         ],
+        'billing' => 'Billing Details',
+        'your_ticket' => 'Your Ticket',
         'previous' => 'Previous',
         'next' => 'Next',
         'next_pass' => 'Next: Choose Your Pass',
