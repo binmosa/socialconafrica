@@ -7,6 +7,7 @@ use App\Models\LeaderMessage;
 use App\Models\Speaker;
 use App\Models\Sponsor;
 use App\Models\Testimonial;
+use App\Models\TicketTier;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -53,6 +54,17 @@ class HomeController extends Controller
                     'role' => $testimonial->getTranslation('role', $locale),
                     'country' => $testimonial->getTranslation('country', $locale),
                     'quote' => $testimonial->getTranslation('quote', $locale),
+                ]),
+            'tiers' => TicketTier::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get()
+                ->map(fn (TicketTier $tier): array => [
+                    'slug' => $tier->slug,
+                    'name' => $tier->getTranslation('name', $locale),
+                    'subtitle' => $tier->getTranslation('subtitle', $locale),
+                    'priceMinor' => $tier->price_minor,
+                    'perks' => $tier->getTranslation('perks', $locale) ?: [],
+                    'badge' => $tier->getTranslation('badge', $locale),
                 ]),
             'sponsors' => Sponsor::with('tier')
                 ->orderBy('sort_order')

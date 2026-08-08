@@ -79,6 +79,14 @@ return [
             'title' => "Voix d'impact",
             'body' => 'Écoutez les créateurs, innovateurs et leaders qui ont vécu la magie de Socialcon Africa.',
         ],
+        'tickets' => [
+            'eyebrow' => 'Votre billet',
+            'title' => 'Obtenez vos billets maintenant',
+            'body' => 'Réservez votre place à SocialCon Africa 2026 et accédez à des analyses exclusives, des opportunités de réseautage et des ateliers pratiques.',
+            'price_label' => 'Prix du billet',
+            'includes' => 'Ce qui est inclus',
+            'free' => 'Gratuit',
+        ],
         'partners' => [
             'eyebrow' => 'Nos partenaires et sponsors',
             'title' => 'Nos partenaires et sponsors',

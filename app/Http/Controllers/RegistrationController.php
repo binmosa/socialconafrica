@@ -19,8 +19,14 @@ class RegistrationController extends Controller
     {
         $locale = app()->getLocale();
 
+        $preselectedTier = request()->query('tier');
+        if ($preselectedTier !== null && ! TicketTier::where('slug', $preselectedTier)->where('is_active', true)->exists()) {
+            $preselectedTier = null;
+        }
+
         return Inertia::render('site/register', [
             'meta' => ['title' => __('site.register.meta_title')],
+            'preselectedTier' => $preselectedTier,
             'tiers' => TicketTier::where('is_active', true)
                 ->orderBy('sort_order')
                 ->get()

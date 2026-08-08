@@ -50,6 +50,7 @@ interface AddonProp {
 
 interface RegisterProps {
     meta?: { title?: string };
+    preselectedTier?: string | null;
     tiers: TierProp[];
     hotels: HotelProp[];
     addons: AddonProp[];
@@ -59,7 +60,7 @@ function formatPrice(minor: number, freeLabel: string): string {
     return minor === 0 ? freeLabel : `$${(minor / 100).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
 }
 
-export default function Register({ meta, tiers, hotels, addons }: RegisterProps) {
+export default function Register({ meta, preselectedTier, tiers, hotels, addons }: RegisterProps) {
     const { t, locale } = useT();
     const { flash } = usePage().props as unknown as { flash?: { success?: string; orderReference?: string } };
     const [step, setStep] = useState(0);
@@ -72,7 +73,7 @@ export default function Register({ meta, tiers, hotels, addons }: RegisterProps)
         phone: '',
         country: '',
         organization: '',
-        ticket_tier: '',
+        ticket_tier: preselectedTier ?? '',
         hotel: '',
         addons: [] as string[],
         payment_method: 'credit_card',
@@ -103,7 +104,8 @@ export default function Register({ meta, tiers, hotels, addons }: RegisterProps)
             return;
         }
         setStepError(null);
-        setStep((current) => Math.min(current + 1, 4));
+        // A tier chosen on the home page skips the pass step (still reachable via Previous).
+        setStep((current) => (current === 0 && preselectedTier && data.ticket_tier === preselectedTier ? 2 : Math.min(current + 1, 4)));
         window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     };
 

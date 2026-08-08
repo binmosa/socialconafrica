@@ -384,6 +384,524 @@ body {
     --sca-pink: #ff0a9d;
 }
 
+/* ---- Hero v2: giant type + framed promo video in a brand-device shell ---- */
+.sca-hero2 {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    padding: 160px 0 80px;
+    background:
+        radial-gradient(900px 480px at 12% -10%, rgba(255, 10, 157, 0.22), transparent 65%),
+        radial-gradient(760px 420px at 88% 8%, rgba(47, 155, 240, 0.16), transparent 65%),
+        radial-gradient(600px 380px at 70% 95%, rgba(125, 201, 67, 0.1), transparent 60%),
+        linear-gradient(180deg, #150933 0%, #11082b 100%);
+}
+
+.sca-hero2 .sca-hero2-flower {
+    position: absolute;
+    top: 90px;
+    right: -110px;
+    width: 320px;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+.sca-hero2-title {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: clamp(46px, 8.6vw, 138px);
+    line-height: 0.95;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.sca-hero2-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 26px 0 34px;
+}
+
+.sca-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 70px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.sca-chip i {
+    color: var(--sca-accent, var(--sca-pink));
+}
+
+.sca-hero2-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 30px;
+    align-items: stretch;
+}
+
+.sca-hero2-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 26px;
+    padding: 8px 0;
+}
+
+.sca-hero2-sub {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: clamp(24px, 2.5vw, 38px);
+    line-height: 1.18;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* Ticket CTA: capsule button + perforated year stub (the brand device, scaled up). */
+.sca-ticket {
+    display: inline-flex;
+    align-items: stretch;
+    position: relative;
+    filter: drop-shadow(0 16px 34px rgba(255, 10, 157, 0.35));
+}
+
+.sca-ticket .sca-ticket-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--sca-pink);
+    color: #fff;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 20px 30px;
+    border-radius: 20px 0 0 20px;
+    border-right: 2px dashed rgba(17, 8, 43, 0.55);
+    transition: background 0.3s;
+}
+
+.sca-ticket .sca-ticket-cta i {
+    margin-left: 12px;
+    transition: transform 0.35s;
+}
+
+.sca-ticket:hover .sca-ticket-cta {
+    background: #d90984;
+}
+
+.sca-ticket:hover .sca-ticket-cta i {
+    transform: rotate(45deg);
+}
+
+.sca-ticket .sca-ticket-year {
+    background: var(--sca-pink);
+    color: #11082b;
+    border-radius: 0 20px 20px 0;
+    padding: 10px 0;
+    width: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: 26px;
+    line-height: 0.95;
+    font-weight: 800;
+}
+
+/* Real die-cut notches at the tear line (mask holes; stub width is fixed at 78px). */
+.sca-ticket {
+    -webkit-mask-image:
+        radial-gradient(circle 10px at calc(100% - 78px) 0, transparent 9px, #000 10px),
+        radial-gradient(circle 10px at calc(100% - 78px) 100%, transparent 9px, #000 10px);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        radial-gradient(circle 10px at calc(100% - 78px) 0, transparent 9px, #000 10px),
+        radial-gradient(circle 10px at calc(100% - 78px) 100%, transparent 9px, #000 10px);
+    mask-composite: intersect;
+}
+
+/* ---- Boarding-pass ticket widget (index2 "Get Your Tickets Now" concept) - */
+.sca-boarding {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr) 320px;
+    border-radius: 26px;
+    background: #0b0614;
+    overflow: hidden;
+    /* drop-shadow follows the mask alpha, so the die-cut notches keep clean edges. */
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.45));
+    /* Real die-cut notches: transparent holes punched at the tear line. */
+    -webkit-mask-image:
+        radial-gradient(circle 20px at calc(100% - 320px) 0, transparent 19px, #000 20px),
+        radial-gradient(circle 20px at calc(100% - 320px) 100%, transparent 19px, #000 20px);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        radial-gradient(circle 20px at calc(100% - 320px) 0, transparent 19px, #000 20px),
+        radial-gradient(circle 20px at calc(100% - 320px) 100%, transparent 19px, #000 20px);
+    mask-composite: intersect;
+}
+
+/* Vertical brand rail — logo yellow, dark type (index2 colorway). */
+.sca-boarding .sca-boarding-rail {
+    background: var(--sca-yellow);
+    position: relative;
+}
+
+.sca-boarding .sca-boarding-rail span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    color: #0b0614;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sca-boarding .sca-boarding-main {
+    padding: 46px 50px;
+    min-width: 0;
+}
+
+/* Fare chips: rounded rectangles, active = solid yellow (index2's price row). */
+.sca-boarding .sca-fare-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.sca-boarding .sca-fare-tabs .sca-fare-number {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    margin-right: 8px;
+}
+
+.sca-boarding .sca-fare-tabs button {
+    border: 0;
+    background: #1a1424;
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 19px;
+    padding: 12px 24px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.sca-boarding .sca-fare-tabs button:hover {
+    background: #251c33;
+}
+
+.sca-boarding .sca-fare-tabs button.active {
+    background: var(--sca-yellow);
+    color: #0b0614;
+}
+
+.sca-boarding .sca-boarding-main h2 {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: clamp(32px, 3.8vw, 54px);
+    font-weight: 800;
+    line-height: 1.08;
+    margin: 0;
+}
+
+.sca-boarding .sca-boarding-main h2 span {
+    color: var(--sca-yellow);
+}
+
+.sca-boarding .sca-boarding-main .sca-fare-sub {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.sca-boarding .sca-perk-list li {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 16px;
+    line-height: 1.6;
+    padding-left: 26px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.sca-boarding .sca-perk-list li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    font-weight: 800;
+    color: var(--sca-green);
+}
+
+.sca-boarding .sca-fare-price h4 {
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    font-family: var(--ztc-family-font2, sans-serif);
+    margin-bottom: 14px;
+}
+
+.sca-boarding .sca-fare-price h3 {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-size: clamp(38px, 3.6vw, 54px);
+    font-weight: 800;
+    line-height: 1;
+}
+
+.sca-boarding .sca-fare-price h3 small {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Stub: same black, separated only by the dashed tear line. */
+.sca-boarding .sca-boarding-stub {
+    position: relative;
+    border-left: 2px dashed rgba(255, 255, 255, 0.35);
+    padding: 42px 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    text-align: center;
+}
+
+.sca-boarding .sca-boarding-stub .sca-stub-number {
+    color: #fff;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 21px;
+    letter-spacing: 0.08em;
+}
+
+.sca-boarding .sca-boarding-stub .sca-stub-qr {
+    width: 168px;
+    height: 168px;
+    border-radius: 18px;
+    background: #1a1424;
+    padding: 22px;
+}
+
+.sca-boarding .sca-boarding-stub .sca-stub-qr img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* QR ships dark-on-light; invert to white modules on the dark card. */
+    filter: invert(1);
+}
+
+.sca-boarding .sca-boarding-stub .sca-stub-buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: var(--sca-yellow);
+    color: #0b0614;
+    font-family: var(--ztc-family-font2, sans-serif);
+    font-weight: 800;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 16px 20px;
+    border-radius: 14px;
+    transition: all 0.3s;
+}
+
+.sca-boarding .sca-boarding-stub .sca-stub-buy:hover {
+    background: #ffd94d;
+    color: #0b0614;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 991px) {
+    .sca-boarding {
+        grid-template-columns: 1fr;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .sca-boarding .sca-boarding-rail {
+        height: 46px;
+    }
+
+    .sca-boarding .sca-boarding-rail span {
+        writing-mode: horizontal-tb;
+        transform: translate(-50%, -50%);
+        letter-spacing: 0.2em;
+    }
+
+    .sca-boarding .sca-boarding-main {
+        padding: 30px 24px;
+    }
+
+    .sca-boarding .sca-boarding-stub {
+        border-left: 0;
+        border-top: 2px dashed rgba(255, 255, 255, 0.35);
+    }
+}
+
+/* Video shell: capsule-cornered frame with floating chip + mute circle. */
+.sca-video-frame {
+    position: relative;
+    border-radius: 30px;
+    border-top-left-radius: 130px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 34px 90px rgba(255, 10, 157, 0.2);
+    aspect-ratio: 16 / 10;
+    background: #0d0620;
+}
+
+.sca-video-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sca-video-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(200deg, rgba(17, 8, 43, 0.35) 0%, transparent 35%, transparent 70%, rgba(17, 8, 43, 0.45) 100%);
+    pointer-events: none;
+}
+
+.sca-video-chip {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 70px;
+    background: rgba(17, 8, 43, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sca-video-chip .sca-live-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--sca-red);
+    animation: sca-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes sca-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.75); }
+}
+
+.sca-mute-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--sca-pink);
+    color: #fff;
+    font-size: 19px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+.sca-mute-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Compact dial variant for the hero left column. */
+.sca-dials-compact .sca-dials {
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+.sca-dials-compact .sca-dial {
+    width: 88px;
+    height: 88px;
+}
+
+.sca-dials-compact .sca-dial .sca-dial-value {
+    font-size: 24px;
+    gap: 5px;
+}
+
+@media (max-width: 991px) {
+    .sca-hero2 {
+        padding: 130px 0 56px;
+    }
+
+    .sca-hero2-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sca-video-frame {
+        border-top-left-radius: 70px;
+        aspect-ratio: 16 / 11;
+    }
+
+    .sca-hero2 .sca-hero2-flower {
+        display: none;
+    }
+
+    .sca-dials-compact .sca-dials {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .sca-dials-compact .sca-dial {
+        width: 76px;
+        height: 76px;
+    }
+
+    .sca-dials-compact .sca-dial .sca-dial-value {
+        font-size: 21px;
+    }
+
+    .sca-dials-compact .sca-dial .sca-dial-value small {
+        font-size: 9px;
+    }
+
+    .sca-hero2-left {
+        text-align: center;
+        align-items: center;
+    }
+}
+
 /* ---- Hero: full-bleed video with brand veil ------------------------------ */
 .sca-hero {
     position: relative;

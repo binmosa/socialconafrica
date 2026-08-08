@@ -79,6 +79,14 @@ return [
             'title' => 'Voices of Impact',
             'body' => 'Hear from the creators, innovators, and leaders who experienced the magic of Socialcon Africa.',
         ],
+        'tickets' => [
+            'eyebrow' => 'Our Event Ticket',
+            'title' => 'Get Your Tickets Now',
+            'body' => 'Secure your spot at SocialCon Africa 2026 and unlock access to exclusive insights, networking opportunities, and hands-on workshops.',
+            'price_label' => 'Ticket Price',
+            'includes' => "What's included",
+            'free' => 'Free',
+        ],
         'partners' => [
             'eyebrow' => 'Our Partners & Sponsors',
             'title' => 'Our Partners & Sponsors',

@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { CSSProperties } from 'react';
+import { CSSProperties, useRef, useState } from 'react';
 
 import { Carousel } from '@/components/site/carousel';
 import { Countdown } from '@/components/site/countdown';
@@ -64,6 +64,15 @@ interface SponsorProp {
     logo: string | null;
 }
 
+interface TierProp {
+    slug: string;
+    name: string;
+    subtitle: string | null;
+    priceMinor: number;
+    perks: string[];
+    badge: string | null;
+}
+
 interface HomeProps {
     meta?: { title?: string; description?: string };
     eventDate: string;
@@ -72,6 +81,7 @@ interface HomeProps {
     personas: PersonaProp[];
     testimonials: TestimonialProp[];
     sponsors: SponsorProp[];
+    tiers: TierProp[];
 }
 
 function initials(name: string): string {
@@ -80,8 +90,25 @@ function initials(name: string): string {
     return picked.map((word) => word[0]).join('').toUpperCase();
 }
 
-export default function Home({ meta, eventDate, speakers, leaders, personas, testimonials, sponsors }: HomeProps) {
+export default function Home({ meta, eventDate, speakers, leaders, personas, testimonials, sponsors, tiers }: HomeProps) {
     const { t, locale } = useT();
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [videoMuted, setVideoMuted] = useState(true);
+    const [fareSlug, setFareSlug] = useState<string>(tiers[1]?.slug ?? tiers[0]?.slug ?? '');
+
+    const fare = tiers.find((tier) => tier.slug === fareSlug) ?? tiers[0];
+
+    const formatFare = (minor: number) => (minor === 0 ? t('home.tickets.free') : `$${(minor / 100).toLocaleString('en-US', { maximumFractionDigits: 2 })}`);
+
+    const toggleVideoSound = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.muted = !video.muted;
+        setVideoMuted(video.muted);
+        if (video.paused) {
+            void video.play();
+        }
+    };
 
     const numbers = [0, 1, 2, 3].map((i) => ({
         value: t(`home.numbers.items.${i}.value`),
@@ -94,52 +121,74 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
 
     return (
         <SiteLayout meta={meta}>
-            {/* Hero — full-bleed video with brand veil, centered content, countdown dials */}
-            <div className="hero4-section-area sca-hero">
-                <video
-                    className="sca-hero-video"
-                    src="/videos/hero.mp4"
-                    poster="/template/img/all-images/bg/hero-bg3.png"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                />
-                <div className="sca-hero-overlay" aria-hidden="true" />
+            {/* Hero v2 — giant type, info chips, framed promo video in the brand-device shell */}
+            <div className="sca-hero2">
+                <img src="/template/img/elements/elements23.png" alt="" className="sca-hero2-flower keyframe5" />
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-10 m-auto">
-                            <div className="hero4-heading sca-hero-content">
-                                <Reveal direction="up" as="div">
-                                    <SectionEyebrow label={t('hero.eyebrow')} icon="fa-solid fa-satellite-dish" accent="var(--sca-yellow)" />
-                                </Reveal>
-                                <div className="space36" />
-                                <Reveal direction="up" as="h1">
-                                    {t('hero.title_1')} <span>{t('hero.title_2')}</span>
-                                </Reveal>
-                                <div className="space24" />
-                                <Reveal direction="up" as="p">
-                                    <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: 20 }}>{t('hero.subtitle')}</span>
-                                </Reveal>
-                                <div className="space32" />
-                                <div className="btn-area1" style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}>
-                                    <Link href={`/${locale}/register`} className="vl-btn4">
-                                        <span className="text">{t('common.register_now')}</span>
-                                        {arrowIcon}
-                                    </Link>
-                                    <a href="#about" className="vl-btn4">
-                                        <span className="text">{t('common.learn_more')}</span>
-                                        {arrowIcon}
-                                    </a>
-                                </div>
-                                <div className="space48" />
-                                <Reveal direction="up" as="div">
-                                    <SectionEyebrow label={t('hero.date')} icon="fa-regular fa-calendar" accent="var(--sca-red)" />
-                                </Reveal>
-                                <div className="space30" />
+                    <Reveal direction="up" as="h1">
+                        <span className="sca-hero2-title">
+                            {t('hero.title_1')} <span className="sca-grad">{t('hero.title_2')}</span>
+                        </span>
+                    </Reveal>
+                    <div className="sca-hero2-chips">
+                        <span className="sca-chip" style={{ '--sca-accent': 'var(--sca-red)' } as CSSProperties}>
+                            <i className="fa-regular fa-calendar" /> {t('hero.date')}
+                        </span>
+                        <span className="sca-chip" style={{ '--sca-accent': 'var(--sca-blue)' } as CSSProperties}>
+                            <i className="fa-solid fa-location-dot" /> {t('header.address')}
+                        </span>
+                        <span className="sca-chip d-none d-md-inline-flex" style={{ '--sca-accent': 'var(--sca-yellow)' } as CSSProperties}>
+                            <i className="fa-solid fa-satellite-dish" /> {t('hero.eyebrow')}
+                        </span>
+                    </div>
+                    <div className="sca-hero2-grid">
+                        <div className="sca-hero2-left">
+                            <Reveal direction="up" as="h2">
+                                <span className="sca-hero2-sub">{t('hero.subtitle')}</span>
+                            </Reveal>
+                            <div>
+                                <a href="#tickets" className="sca-ticket">
+                                    <span className="sca-ticket-cta">
+                                        {t('nav.buy_ticket')} <i className="fa-solid fa-ticket" aria-hidden="true" />
+                                    </span>
+                                    <span className="sca-ticket-year" aria-hidden="true">
+                                        <span>20</span>
+                                        <span>26</span>
+                                    </span>
+                                </a>
+                                <div className="space16" />
+                                <a href="#about" style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>
+                                    {t('common.learn_more')} <i className="fa-solid fa-arrow-down" style={{ marginLeft: 6, fontSize: 12 }} />
+                                </a>
+                            </div>
+                            <div className="sca-dials-compact">
                                 <Countdown target={new Date(eventDate)} />
                             </div>
                         </div>
+                        <Reveal direction="up" as="div">
+                            <div className="sca-video-frame">
+                                <video
+                                    ref={videoRef}
+                                    src="/videos/hero.mp4"
+                                    poster="/template/img/all-images/bg/hero-bg3.png"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                />
+                                <span className="sca-video-chip">
+                                    <span className="sca-live-dot" aria-hidden="true" /> SocialCon Africa 2025
+                                </span>
+                                <button
+                                    type="button"
+                                    className="sca-mute-btn"
+                                    onClick={toggleVideoSound}
+                                    aria-label={videoMuted ? 'Unmute video' : 'Mute video'}
+                                >
+                                    <i className={videoMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high'} />
+                                </button>
+                            </div>
+                        </Reveal>
                     </div>
                 </div>
             </div>
@@ -421,6 +470,95 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </div>
+
+                {/* Get your ticket — boarding-pass widget (index2 concept) */}
+                <div id="tickets" className="sp6 sca-section">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-8 m-auto">
+                                <div className="heading4 text-center space-margin60">
+                                    <SectionEyebrow label={t('home.tickets.eyebrow')} icon="fa-solid fa-ticket" accent="var(--sca-red)" />
+                                    <div className="space20" />
+                                    <Reveal direction="up" as="h2">
+                                        {t('home.tickets.title')}
+                                    </Reveal>
+                                    <div className="space18" />
+                                    <p style={{ color: 'rgba(255,255,255,0.75)' }}>{t('home.tickets.body')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {fare && (
+                            <Reveal direction="up" as="div">
+                                <div className="sca-boarding">
+                                    <div className="sca-boarding-rail">
+                                        <span>SocialCon Africa • 2026</span>
+                                    </div>
+                                    <div className="sca-boarding-main">
+                                        <div className="sca-fare-tabs" role="tablist">
+                                            <span className="sca-fare-number">#SCA-2026</span>
+                                            {tiers.map((tier) => (
+                                                <button
+                                                    key={tier.slug}
+                                                    type="button"
+                                                    role="tab"
+                                                    aria-selected={tier.slug === fareSlug}
+                                                    className={tier.slug === fareSlug ? 'active' : ''}
+                                                    onClick={() => setFareSlug(tier.slug)}
+                                                >
+                                                    {formatFare(tier.priceMinor)}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="space32" />
+                                        <h2>
+                                            {fare.name} <span>&ldquo;2026&rdquo;</span>
+                                        </h2>
+                                        {fare.subtitle && (
+                                            <>
+                                                <div className="space16" />
+                                                <p className="sca-fare-sub">
+                                                    {fare.subtitle}
+                                                    {fare.badge ? ` — ${fare.badge}` : ''}
+                                                </p>
+                                            </>
+                                        )}
+                                        <div className="space32" />
+                                        <div className="row" style={{ rowGap: 22 }}>
+                                            <div className="col-md-7">
+                                                <h4 style={{ color: 'rgba(255,255,255,0.65)', fontSize: 14, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14 }}>
+                                                    {t('home.tickets.includes')}
+                                                </h4>
+                                                <ul className="sca-perk-list">
+                                                    {fare.perks.map((perk) => (
+                                                        <li key={perk}>{perk}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="col-md-5">
+                                                <div className="sca-fare-price">
+                                                    <h4>{t('home.tickets.price_label')}</h4>
+                                                    <h3>
+                                                        {formatFare(fare.priceMinor)}
+                                                        {fare.priceMinor > 0 && <small> USD</small>}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="sca-boarding-stub">
+                                        <span className="sca-stub-number">#SCA-2026</span>
+                                        <span className="sca-stub-qr">
+                                            <img src="/template/img/elements/elements20.png" alt="" loading="lazy" />
+                                        </span>
+                                        <Link href={`/${locale}/register?tier=${fare.slug}`} className="sca-stub-buy">
+                                            {t('nav.buy_ticket')} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Reveal>
+                        )}
                     </div>
                 </div>
 
