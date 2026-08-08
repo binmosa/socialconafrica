@@ -34,6 +34,24 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        @if (str_starts_with($page['component'] ?? '', 'site/'))
+            {{-- Nexus template stylesheets — order matters, main.css must load last. --}}
+            <link rel="stylesheet" href="/template/css/plugins/bootstrap.min.css">
+            <link rel="stylesheet" href="/template/css/plugins/aos.css">
+            <link rel="stylesheet" href="/template/css/plugins/fontawesome.css">
+            <link rel="stylesheet" href="/template/css/plugins/magnific-popup.css">
+            <link rel="stylesheet" href="/template/css/plugins/owlcarousel.min.css">
+            <link rel="stylesheet" href="/template/css/plugins/sidebar.css">
+            <link rel="stylesheet" href="/template/css/plugins/slick-slider.css">
+            <link rel="stylesheet" href="/template/css/plugins/nice-select.css">
+            <link rel="stylesheet" href="/template/css/main.css">
+            <style>
+                html, body {
+                    background-color: #11082B;
+                }
+            </style>
+        @endif
+
         @fonts
 
         @viteReactRefresh

@@ -51,7 +51,7 @@ export function Carousel({
                         ? children.map((child, i) => (
                               <div
                                   key={i}
-                                  style={{ flex: `0 0 ${slideBasis}`, minWidth: 0 }}
+                                  style={{ flex: `0 0 var(--slide-basis, ${slideBasis})`, minWidth: 0 }}
                               >
                                   {child}
                               </div>

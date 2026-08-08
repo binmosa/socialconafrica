@@ -46,6 +46,10 @@ class HandleInertiaRequests extends Middleware
             'locale' => fn () => App::getLocale(),
             'availableLocales' => SetLocale::SUPPORTED,
             'translations' => fn () => $this->loadTranslations(App::getLocale()),
+            'flash' => fn (): array => [
+                'success' => $request->session()->get('success'),
+                'orderReference' => $request->session()->get('orderReference'),
+            ],
         ];
     }
 
