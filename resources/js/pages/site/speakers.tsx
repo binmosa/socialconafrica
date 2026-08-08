@@ -33,14 +33,7 @@ export default function Speakers({ meta, speakers }: SpeakersProps) {
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('speakers_page.title')} subtitle={t('speakers_page.subtitle')} />
 
-            <div
-                className="bg-area4 team4-section-area sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 team4-section-area sp6 sca-bg">
                 <div className="container">
                     <FilterChips chips={chips} active={category} onChange={setCategory} />
                     <div className="space48" />

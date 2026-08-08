@@ -33,14 +33,7 @@ export default function Awards({ meta, categories }: AwardsProps) {
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('awards.title')} subtitle={t('awards.subtitle')} />
 
-            <div
-                className="bg-area4 sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sp6 sca-bg">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-9 m-auto text-center">

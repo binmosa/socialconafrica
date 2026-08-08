@@ -205,15 +205,7 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                 </div>
             </div>
 
-            <div
-                className="bg-area4"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sca-bg">
                 {/* Featured platforms — dual counter-scrolling marquee strips */}
                 <div className="slider2-section-area sp4" style={{ position: 'relative', zIndex: 1 }}>
                     <div className="container">
@@ -582,15 +574,7 @@ export default function Home({ meta, eventDate, speakers, leaders, personas, tes
                 </div>
 
                 {/* Testimonials */}
-                <div
-                    className="sp6 sca-section"
-                    style={{
-                        backgroundImage: 'url(/template/img/all-images/bg/bg5.png)',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                    }}
-                >
+                <div className="sp6 sca-section sca-bg-alt">
                     <img
                         src="/template/img/elements/elements30.png"
                         alt=""

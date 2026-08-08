@@ -52,14 +52,7 @@ export default function Sponsors({ meta, tiers, sponsors }: SponsorsProps) {
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('sponsors_page.title')} subtitle={t('sponsors_page.subtitle')} />
 
-            <div
-                className="bg-area4 sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sp6 sca-bg">
                 <div className="container">
                     <FilterChips chips={chips} active={tier} onChange={setTier} />
                     <div className="space48" />

@@ -38,14 +38,7 @@ export default function Vote({ meta, votingOpen, categories }: VoteProps) {
                 )}
             </InnerPageHeader>
 
-            <div
-                className="bg-area4 team4-section-area sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 team4-section-area sp6 sca-bg">
                 <div className="container">
                     {!votingOpen && (
                         <div className="row">

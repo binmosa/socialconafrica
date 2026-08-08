@@ -39,14 +39,7 @@ export default function Contact({ meta, contact }: ContactProps) {
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
-            <div
-                className="bg-area4 sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sp6 sca-bg">
                 <div className="container">
                     <div className="row" style={{ rowGap: 30 }}>
                         <div className="col-lg-7">

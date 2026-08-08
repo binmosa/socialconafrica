@@ -279,8 +279,9 @@ body {
     z-index: 1;
     padding: 190px 0 90px;
     background:
-        linear-gradient(180deg, rgba(17, 8, 43, 0.55), rgba(17, 8, 43, 0.85)),
-        url('/template/img/all-images/bg/hero-bg3.png') center / cover no-repeat;
+        radial-gradient(820px 420px at 18% 0%, rgba(255, 10, 157, 0.2), transparent 62%),
+        radial-gradient(700px 420px at 85% 30%, rgba(47, 155, 240, 0.14), transparent 62%),
+        linear-gradient(180deg, #1a0b3d 0%, #150933 60%, #11082b 100%);
     text-align: center;
 }
 
@@ -313,6 +314,23 @@ body {
     .inner-page-header p {
         font-size: 16px;
     }
+}
+
+/* Premium color-only section backgrounds (replace the low-res template JPGs). */
+.sca-bg {
+    background:
+        radial-gradient(1100px 620px at 88% 2%, rgba(255, 10, 157, 0.11), transparent 62%),
+        radial-gradient(950px 580px at 0% 30%, rgba(124, 92, 184, 0.16), transparent 62%),
+        radial-gradient(850px 520px at 100% 72%, rgba(47, 155, 240, 0.09), transparent 60%),
+        radial-gradient(700px 460px at 12% 98%, rgba(125, 201, 67, 0.06), transparent 60%),
+        linear-gradient(180deg, #1a0b3d 0%, #150933 45%, #11082b 100%);
+}
+
+.sca-bg-alt {
+    background:
+        radial-gradient(900px 520px at 15% 10%, rgba(255, 10, 157, 0.14), transparent 60%),
+        radial-gradient(820px 500px at 92% 85%, rgba(245, 197, 24, 0.07), transparent 58%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
 }
 
 /* Glass content card used across inner pages (quotes, personas, agenda rows…). */

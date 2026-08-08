@@ -135,10 +135,7 @@ export default function Register({ meta, preselectedTier, tiers, hotels, addons 
                         </div>
                     )}
                 </InnerPageHeader>
-                <div
-                    className="bg-area4 sp6"
-                    style={{ backgroundImage: 'url(/template/img/all-images/bg/bg4.png)', backgroundSize: 'cover' }}
-                />
+                <div className="bg-area4 sp6 sca-bg" />
             </SiteLayout>
         );
     }
@@ -147,14 +144,7 @@ export default function Register({ meta, preselectedTier, tiers, hotels, addons 
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('register.personal.title')} subtitle={t('register.personal.body')} />
 
-            <div
-                className="bg-area4 sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sp6 sca-bg">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-10 m-auto">

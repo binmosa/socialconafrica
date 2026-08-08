@@ -43,14 +43,7 @@ export default function Agenda({ meta, days }: AgendaProps) {
         <SiteLayout meta={meta}>
             <InnerPageHeader title={t('agenda.title')} subtitle={t('agenda.subtitle')} />
 
-            <div
-                className="bg-area4 sp6"
-                style={{
-                    backgroundImage: 'url(/template/img/all-images/bg/bg4.png)',
-                    backgroundPosition: 'center top',
-                    backgroundSize: 'cover',
-                }}
-            >
+            <div className="bg-area4 sp6 sca-bg">
                 <div className="container">
                     <FilterChips chips={trackChips} active={track} onChange={setTrack} />
                     <div className="space48" />
