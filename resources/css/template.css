@@ -316,6 +316,30 @@ body {
     }
 }
 
+/* Closing CTA arrow: the template's 160px circle is oversized — match the
+   capsule-and-circle device scale instead. */
+.cta4-section-area .arrow-cta-btn {
+    top: 0;
+}
+
+.cta4-section-area .arrow-cta-btn a {
+    height: 72px;
+    width: 72px;
+    line-height: 68px;
+    background: var(--sca-pink);
+    transition: all 0.4s;
+}
+
+.cta4-section-area .arrow-cta-btn a:hover {
+    transform: rotate(45deg) scale(1.06);
+}
+
+.cta4-section-area .arrow-cta-btn a svg {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
 /* Solid accent action button (checkout, standalone forms). */
 .sca-buy-btn {
     display: flex;
