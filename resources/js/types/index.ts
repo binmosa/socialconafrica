@@ -23,6 +23,21 @@ export type CategoryRef = {
     slug: string;
 };
 
+export type PublicStanding = {
+    rank: number;
+    display_name: string;
+    handle: string;
+    share_slug: string;
+    image_path: string | null;
+    approx_votes: string;
+    /** Relative to the leader (0-100) — drives progress bars. */
+    share: number;
+    /** Share of all votes cast (percent, one decimal). */
+    share_pct: number;
+    category?: string | null;
+    city?: string | null;
+};
+
 export type NomineeCardData = {
     id: number;
     display_name: string;
@@ -33,6 +48,7 @@ export type NomineeCardData = {
     categories: CategoryRef[];
     rank?: number | null;
     approx_votes?: string | null;
+    share_pct?: number | null;
 };
 
 export type SharedData = {
@@ -42,6 +58,7 @@ export type SharedData = {
     availableLocales: string[];
     votingWindow: VotingWindow;
     activeDraw: ActiveDraw;
+    pricing: { unit_etb: number };
     flash: { success?: string; error?: string };
     [key: string]: unknown;
 };

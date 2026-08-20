@@ -4,11 +4,18 @@ import { useEffect, useRef } from 'react';
  * Renders the official Telegram Login Widget, which posts the signed
  * payload to our verification callback.
  */
-export function TelegramLoginButton({ bot, authUrl }: { bot: string; authUrl: string }) {
+export function TelegramLoginButton({
+    bot,
+    authUrl,
+}: {
+    bot: string;
+    authUrl: string;
+}) {
     const container = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const node = container.current;
+
         if (!node) {
             return;
         }

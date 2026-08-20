@@ -9,8 +9,8 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', 'Noto Sans Ethiopic', ui-sans-serif, system-ui,
-        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Figtree', 'Noto Sans Ethiopic', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
     --font-display:
         'Bricolage Grotesque', 'Noto Sans Ethiopic', ui-sans-serif, system-ui,
@@ -21,20 +21,25 @@
     --radius-sm: calc(var(--radius) - 4px);
 
     /*
-     * ACE "daylight festival" palette.
-     * paper      warm ivory page ground
-     * paper-soft deeper ivory section bands
-     * ink        deep indigo text (brand continuity with the old night look)
-     * veil       soft violet tint for avatar fallbacks / subtle fills
-     * mist       muted indigo-gray text
-     * gold       readable amber — for TEXT and icons on light surfaces
-     * gold-fill  bright meskel gold — for FILLS, borders, CTAs (with ink text)
-     * gold-soft  deep amber for small emphasized text
-     * ember      live/urgent markers and errors
-     * violet/pink  the social "spotlight" gradient endpoints
+     * ACE palette (unchanged hues) applied with the "Nexus 06" stage concept:
+     * night grounds for hero / draw / CTA / footer, paper + paper-soft bands
+     * for content, brand gradient for every primary action.
+     *
+     * paper / paper-soft  warm ivory page ground + section bands
+     * night / night-soft  deep indigo stage grounds (hero, draw, CTA, footer)
+     * ink                 deep indigo text on light surfaces
+     * veil                soft violet tint for subtle fills
+     * mist                muted indigo-gray text
+     * gold                readable amber — text/icons on light surfaces
+     * gold-fill           bright gold — fills, stat numbers, accents
+     * gold-soft           deep amber emphasis text
+     * ember               live/urgent markers and errors
+     * violet / pink       brand gradient endpoints
      */
     --color-paper: #fbf7f0;
-    --color-paper-soft: #f3ecdf;
+    --color-paper-soft: #f3eee4;
+    --color-night: #130b2c;
+    --color-night-soft: #1f1544;
     --color-ink: #221542;
     --color-veil: #efe9fb;
     --color-mist: #6e6689;
@@ -73,12 +78,48 @@
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
+
+    --animate-spin-slow: spin-slow 90s cubic-bezier(0.59, 0.59, 1, 1) infinite
+        alternate;
+    --animate-pulse-ring: pulse-ring 1.5s ease-out infinite;
+    --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+    @keyframes spin-slow {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(-1000deg);
+        }
+    }
+
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(1);
+            opacity: 0.45;
+        }
+        100% {
+            transform: scale(1.7);
+            opacity: 0;
+        }
+    }
+
+    @keyframes rise {
+        from {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }
 
 /*
- * The voter experience commits to one appearance: light "daylight festival".
- * shadcn tokens are mapped identically on :root and .dark so components
- * render the same regardless of system preference.
+ * The voter experience commits to one appearance. shadcn tokens are mapped
+ * identically on :root and .dark so components render the same regardless
+ * of system preference.
  */
 :root,
 .dark {
@@ -88,11 +129,11 @@
     --card-foreground: #221542;
     --popover: #ffffff;
     --popover-foreground: #221542;
-    --primary: #f5b82e;
-    --primary-foreground: #221542;
-    --secondary: #f1ead9;
+    --primary: #6c3bf4;
+    --primary-foreground: #ffffff;
+    --secondary: #f3eee4;
     --secondary-foreground: #221542;
-    --muted: #f1ead9;
+    --muted: #f3eee4;
     --muted-foreground: #6e6689;
     --accent: #efe9fb;
     --accent-foreground: #4c2bb0;
@@ -100,8 +141,8 @@
     --destructive-foreground: #ffffff;
     --border: rgb(34 21 66 / 0.12);
     --input: rgb(34 21 66 / 0.16);
-    --ring: #b87700;
-    --radius: 1rem;
+    --ring: #6c3bf4;
+    --radius: 0.75rem;
 }
 
 @layer base {
@@ -122,31 +163,28 @@
     font-family: var(--font-display);
 }
 
-/*
- * Signature motif #1: the gold tally stroke — a short ballot-tally
- * underline beneath the key word in headings and hero copy.
- */
-@utility tally-underline {
-    position: relative;
-    display: inline-block;
+/* ------------------------------------------------------------------ */
+/* Brand gradients                                                     */
+/* ------------------------------------------------------------------ */
 
-    &::after {
-        content: '';
-        position: absolute;
-        left: -0.05em;
-        right: -0.05em;
-        bottom: -0.12em;
-        height: 0.14em;
-        background: var(--color-gold-fill);
-        border-radius: 999px;
-        transform: rotate(-1.2deg);
-    }
+/* Primary action gradient (buttons, active tabs, icon chips). */
+@utility bg-brand {
+    background-image: linear-gradient(
+        91deg,
+        var(--color-violet) 0.78%,
+        var(--color-pink) 99.88%
+    );
 }
 
-/*
- * Signature motif #2: the spotlight gradient — violet → pink → gold.
- * Used for story-style avatar rings, progress bars and one hero wash.
- */
+@utility bg-brand-reverse {
+    background-image: linear-gradient(
+        91deg,
+        var(--color-pink) 0.78%,
+        var(--color-violet) 99.88%
+    );
+}
+
+/* Three-stop spotlight — avatar story rings, progress bars, accents. */
 @utility bg-spotlight {
     background-image: linear-gradient(
         135deg,
@@ -154,6 +192,28 @@
         var(--color-pink),
         var(--color-gold-fill)
     );
+}
+
+/* Gradient text on LIGHT surfaces. */
+@utility text-brand {
+    background-image: linear-gradient(
+        96deg,
+        var(--color-violet) 10%,
+        var(--color-pink) 90%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+/* Gradient text on DARK surfaces (the highlighted hero word). */
+@utility text-sunrise {
+    background-image: linear-gradient(
+        96deg,
+        var(--color-pink) 20%,
+        var(--color-gold-fill) 95%
+    );
+    background-clip: text;
+    color: transparent;
 }
 
 @utility text-spotlight {
@@ -167,6 +227,58 @@
     color: transparent;
 }
 
+/* ------------------------------------------------------------------ */
+/* Stage surfaces                                                      */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Night "stage" surfaces. Colours are literal (not theme variables) so the
+ * dark ground can never fall back to the page ivory and leave white copy
+ * unreadable, whatever the CSS pipeline serves.
+ */
+@utility stage {
+    background-color: #130b2c;
+    color: #ffffff;
+    background-image:
+        radial-gradient(60rem 30rem at 50% 120%, rgb(108 59 244 / 0.28), transparent 70%),
+        repeating-radial-gradient(
+            circle at 50% 125%,
+            rgb(255 255 255 / 0.07) 0px,
+            rgb(255 255 255 / 0.07) 1px,
+            transparent 1px,
+            transparent 64px
+        );
+}
+
+@utility stage-flat {
+    background-color: #130b2c;
+    color: #ffffff;
+}
+
+/* Concentric fine-line rings that sit behind the dark hero and banners. */
+@utility bg-rings {
+    background-image:
+        radial-gradient(
+            60rem 30rem at 50% 120%,
+            rgb(108 59 244 / 0.28),
+            transparent 70%
+        ),
+        repeating-radial-gradient(
+            circle at 50% 125%,
+            rgb(255 255 255 / 0.07) 0px,
+            rgb(255 255 255 / 0.07) 1px,
+            transparent 1px,
+            transparent 64px
+        );
+}
+
+/* Translucent white panel used on night grounds. */
+@utility glass {
+    background-color: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(6px);
+}
+
 /* Soft, indigo-tinted elevation for cards on the ivory canvas. */
 @utility shadow-lift {
     box-shadow:
@@ -174,6 +286,71 @@
         0 12px 32px -16px rgb(34 21 66 / 0.18);
 }
 
+/* Glow for gradient CTAs. */
+@utility shadow-glow {
+    box-shadow: 0 12px 32px -12px rgb(108 59 244 / 0.55);
+}
+
+/* Gradient sweep that fills a card from the left on hover (sponsor boxes). */
+@utility sweep {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 6px;
+        background-image: linear-gradient(
+            91deg,
+            var(--color-violet),
+            var(--color-pink)
+        );
+        opacity: 0;
+        transition:
+            width 0.4s,
+            opacity 0.4s;
+        z-index: -1;
+    }
+
+    &:hover::after {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+/* Diagonal arrow that straightens on hover — used inside gradient CTAs. */
+@utility cta-arrow {
+    transform: rotate(-45deg);
+    transition: transform 0.4s;
+}
+
+@layer components {
+    .group:hover .cta-arrow,
+    .group:focus-visible .cta-arrow {
+        transform: rotate(0deg);
+    }
+}
+
+/* Template-style heading sizes. */
+@utility text-display-xl {
+    font-size: clamp(2.5rem, 6.2vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+}
+
+@utility text-display-lg {
+    font-size: clamp(2rem, 3.6vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+@utility text-display-md {
+    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
 
 @media (prefers-reduced-motion: reduce) {
     *,

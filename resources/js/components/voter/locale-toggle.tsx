@@ -1,20 +1,21 @@
 import { router } from '@inertiajs/react';
-import { switchMethod } from '@/routes/locale';
 import { useT } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
+import { switchMethod } from '@/routes/locale';
 
 const LABELS: Record<string, string> = {
     en: 'EN',
     am: 'አማ',
 };
 
-export function LocaleToggle() {
+export function LocaleToggle({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
     const { locale } = useT();
 
     const setLocale = (target: string) => {
         if (target === locale) {
             return;
         }
+
         router.post(switchMethod(target).url, {}, { preserveScroll: true });
     };
 
@@ -22,7 +23,12 @@ export function LocaleToggle() {
         <div
             role="group"
             aria-label="Language"
-            className="flex items-center rounded-full border border-border bg-secondary/60 p-0.5 text-xs font-semibold"
+            className={cn(
+                'flex items-center rounded-full p-0.5 text-xs font-bold',
+                tone === 'dark'
+                    ? 'glass'
+                    : 'border border-border bg-paper-soft',
+            )}
         >
             {Object.entries(LABELS).map(([code, label]) => (
                 <button
@@ -31,10 +37,12 @@ export function LocaleToggle() {
                     onClick={() => setLocale(code)}
                     aria-pressed={locale === code}
                     className={cn(
-                        'min-w-11 rounded-full px-3 py-1.5 transition-colors',
+                        'min-w-10 cursor-pointer rounded-full px-3 py-1.5 transition-colors',
                         locale === code
-                            ? 'bg-gold-fill text-ink'
-                            : 'text-mist hover:text-foreground',
+                            ? 'bg-brand text-white'
+                            : tone === 'dark'
+                              ? 'text-white/70 hover:text-white'
+                              : 'text-mist hover:text-ink',
                     )}
                 >
                     {label}

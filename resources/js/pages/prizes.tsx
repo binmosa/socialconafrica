@@ -1,9 +1,12 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Car, Gift } from 'lucide-react';
+import { ArrowRight, Car, Gift, Ticket } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Countdown } from '@/components/voter/countdown';
+import { PageHeader } from '@/components/voter/page-header';
+import { Reveal } from '@/components/voter/reveal';
+import { useT } from '@/lib/i18n';
 import { winners } from '@/routes';
 import { index as nomineesIndex } from '@/routes/nominees';
-import { Button } from '@/components/ui/button';
-import { useT } from '@/lib/i18n';
 import type { SharedData } from '@/types';
 
 export default function Prizes() {
@@ -14,61 +17,106 @@ export default function Prizes() {
         <>
             <Head title={t('prizes.title')} />
 
-            <section className="mx-auto max-w-4xl px-4 py-12">
-                <header className="mb-10 text-center">
-                    <h1 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                        {t('prizes.title')}
-                    </h1>
-                    <p className="mt-3 text-sm text-mist md:text-base">{t('prizes.subtitle')}</p>
-                </header>
+            <PageHeader
+                badge={t('prizes.eyebrow')}
+                title={t('prizes.subtitle')}
+                subtitle={t('prizes.weekly_body')}
+            >
+                {activeDraw && (
+                    <Countdown
+                        until={activeDraw.closes_at}
+                        label={`${activeDraw.week_key} · ${t('home.draw_closes')}`}
+                    />
+                )}
+            </PageHeader>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                    <div className="shadow-lift rounded-2xl border border-border/60 bg-card p-7">
-                        <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-violet uppercase">
-                            <Gift className="size-4" aria-hidden />
-                            {t('prizes.weekly_title')}
-                        </p>
-                        <p className="text-sm text-mist">{t('prizes.weekly_body')}</p>
-                        {activeDraw && (
-                            <ul className="mt-5 space-y-2">
-                                {activeDraw.prizes.map((prize) => (
-                                    <li
-                                        key={prize.tier + prize.label}
-                                        className="flex items-center justify-between rounded-lg bg-paper px-4 py-2.5 text-sm"
-                                    >
-                                        <span>{prize.label}</span>
-                                        <span className="font-display font-bold text-gold">
-                                            ×{prize.count}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+            <section className="mx-auto max-w-6xl px-4 pb-16 md:pb-24">
+                <div className="grid gap-5 md:grid-cols-2">
+                    <Reveal>
+                        <div className="h-full rounded-3xl border border-border/70 bg-white p-7 shadow-lift md:p-9">
+                            <p className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.08em] text-violet uppercase">
+                                <Gift className="size-4" aria-hidden />
+                                {t('prizes.weekly_title')}
+                            </p>
+                            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight uppercase">
+                                {activeDraw
+                                    ? activeDraw.week_key
+                                    : t('nav.draw')}
+                            </h2>
+                            {activeDraw ? (
+                                <ul className="mt-6 space-y-3">
+                                    {activeDraw.prizes.map((prize) => (
+                                        <li
+                                            key={prize.tier + prize.label}
+                                            className="flex items-center justify-between rounded-lg bg-paper-soft px-5 py-3.5"
+                                        >
+                                            <span className="font-medium">
+                                                {prize.label}
+                                            </span>
+                                            <span className="font-display text-xl font-bold text-gold">
+                                                ×{prize.count}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="mt-6 text-ink/60">
+                                    {t('winners.empty')}
+                                </p>
+                            )}
+                        </div>
+                    </Reveal>
 
-                    <div className="bg-spotlight shadow-lift rounded-2xl p-[2px]">
-                        <div className="h-full rounded-[calc(1rem-2px)] bg-card p-7">
-                            <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-violet uppercase">
-                                <Car className="size-4" aria-hidden />
+                    <Reveal delay={100}>
+                        <div className="relative h-full overflow-hidden rounded-3xl stage p-7 md:p-9">
+                            <p className="relative inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.08em] uppercase">
+                                <Car
+                                    className="size-4 text-gold-fill"
+                                    aria-hidden
+                                />
                                 {t('prizes.grand_title')}
                             </p>
-                            <p className="font-display text-xl font-bold">{t('prizes.grand_body')}</p>
+                            <p className="relative mt-4 font-display text-3xl font-bold md:text-4xl">
+                                <span className="text-sunrise">
+                                    {t('prizes.grand_body')}
+                                </span>
+                            </p>
+                            <p className="relative mt-5 text-[15px] leading-7 text-white/70">
+                                {t('home.road_body')}
+                            </p>
+                        </div>
+                    </Reveal>
+                </div>
+
+                <Reveal delay={150}>
+                    <div className="mt-6 rounded-2xl bg-brand p-[2px]">
+                        <div className="flex flex-col items-center gap-4 rounded-[calc(1rem-2px)] bg-white px-6 py-6 text-center md:flex-row md:text-left">
+                            <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-brand text-white">
+                                <Ticket className="size-6" aria-hidden />
+                            </span>
+                            <p className="text-[17px] font-semibold">
+                                {t('prizes.entry_rule')}
+                            </p>
                         </div>
                     </div>
-                </div>
+                </Reveal>
 
-                <p className="mt-6 rounded-xl border border-border bg-card px-5 py-4 text-center text-sm text-mist">
-                    {t('prizes.entry_rule')}
-                </p>
-
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
-                    <Button asChild size="lg" className="font-semibold">
-                        <Link href={nomineesIndex(locale).url}>{t('prizes.cta')}</Link>
+                <Reveal
+                    delay={200}
+                    className="mt-10 flex flex-wrap justify-center gap-3"
+                >
+                    <Button asChild size="lg">
+                        <Link href={nomineesIndex(locale).url}>
+                            {t('prizes.cta')}
+                            <ArrowRight className="cta-arrow" aria-hidden />
+                        </Link>
                     </Button>
                     <Button asChild size="lg" variant="outline">
-                        <Link href={winners(locale).url}>{t('prizes.see_winners')}</Link>
+                        <Link href={winners(locale).url}>
+                            {t('prizes.see_winners')}
+                        </Link>
                     </Button>
-                </div>
+                </Reveal>
             </section>
         </>
     );

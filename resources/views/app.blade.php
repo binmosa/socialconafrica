@@ -19,7 +19,7 @@
             })();
         </script>
 
-        {{-- Inline style to match the ACE daylight theme on first paint --}}
+        {{-- Inline style to match the ACE stage theme on first paint --}}
         <style>
             html {
                 background-color: #fbf7f0;

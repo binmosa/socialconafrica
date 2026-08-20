@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
             'locale' => fn () => App::getLocale(),
             'availableLocales' => SetLocale::SUPPORTED,
             'translations' => fn (): array => $this->loadTranslations(App::getLocale()),
+            'pricing' => ['unit_etb' => (int) (config('ace.pricing.unit_price_minor') / 100)],
             'votingWindow' => fn (): array => $this->settings->votingWindow()->toArray(),
             'activeDraw' => fn (): ?array => $this->activeDrawProps(),
             'flash' => fn (): array => [

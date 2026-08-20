@@ -7,6 +7,7 @@ use App\Models\Nominee;
 use App\Services\Catalog\NomineeSearchService;
 use App\Services\Leaderboard\ApproximateFormatter;
 use App\Services\Leaderboard\LeaderboardService;
+use App\Services\Leaderboard\PublicBoardPresenter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -24,8 +25,22 @@ class NomineeController extends Controller
         $query = $request->string('q')->toString() ?: null;
         $category = $request->string('category')->toString() ?: null;
 
+        $overall = $this->leaderboard->overall()->keyBy('nominee_id');
+        $totalVotes = (int) $overall->sum('total_votes');
+
         $nominees = $search->search($query, $category)
-            ->map(fn (Nominee $nominee): array => $this->nomineeProps($nominee, $locale));
+            ->map(function (Nominee $nominee) use ($locale, $overall, $totalVotes): array {
+                $row = $overall->get($nominee->id);
+                $votes = (int) ($row['total_votes'] ?? 0);
+
+                return $this->nomineeProps($nominee, $locale) + [
+                    'rank' => $row['rank'] ?? null,
+                    'approx_votes' => $this->formatter->format($votes),
+                    'share_pct' => PublicBoardPresenter::sharePct($votes, $totalVotes),
+                ];
+            })
+            ->sortBy(fn (array $card): int => $card['rank'] ?? PHP_INT_MAX)
+            ->values();
 
         $categories = Category::query()
             ->where('status', 'ACTIVE')
@@ -47,14 +62,17 @@ class NomineeController extends Controller
     {
         abort_unless($nominee->status === 'ACTIVE', 404);
 
-        $overall = $this->leaderboard->overall()->firstWhere('nominee_id', $nominee->id);
+        $board = $this->leaderboard->overall();
+        $overall = $board->firstWhere('nominee_id', $nominee->id);
+        $votes = (int) ($overall['total_votes'] ?? 0);
 
         return Inertia::render('nominees/show', [
             'nominee' => $this->nomineeProps($nominee->load('categories'), app()->getLocale()) + [
                 'bio' => $nominee->getTranslation('bio', app()->getLocale()) ?: null,
                 'social_profile_url' => $nominee->social_profile_url,
                 'rank' => $overall['rank'] ?? null,
-                'approx_votes' => $this->formatter->format((int) ($overall['total_votes'] ?? 0)),
+                'approx_votes' => $this->formatter->format($votes),
+                'share_pct' => PublicBoardPresenter::sharePct($votes, (int) $board->sum('total_votes')),
             ],
         ]);
     }

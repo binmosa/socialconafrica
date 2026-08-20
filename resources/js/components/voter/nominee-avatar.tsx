@@ -22,7 +22,11 @@ export function NomineeAvatar({
         <img
             src={imagePath}
             alt={name}
-            className={cn('rounded-full object-cover', ring && 'ring-2 ring-card', className)}
+            className={cn(
+                'rounded-full object-cover',
+                ring && 'ring-2 ring-card',
+                className,
+            )}
         />
     ) : (
         <div
@@ -41,5 +45,9 @@ export function NomineeAvatar({
         return face;
     }
 
-    return <span className="bg-spotlight inline-flex rounded-full p-[2.5px]">{face}</span>;
+    return (
+        <span className="inline-flex rounded-full bg-spotlight p-[2.5px]">
+            {face}
+        </span>
+    );
 }
