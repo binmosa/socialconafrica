@@ -1,114 +1,169 @@
-import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import TextLink from '@/components/text-link';
+import { Head, useForm } from '@inertiajs/react';
+import { send as otpSend, verify as otpVerify } from '@/routes/otp';
+import { google } from '@/routes/auth';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import { register } from '@/routes';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
+import { Separator } from '@/components/ui/separator';
+import { TelegramLoginButton } from '@/components/voter/telegram-login-button';
+import { useT } from '@/lib/i18n';
 
-type Props = {
-    status?: string;
-    canResetPassword: boolean;
+type LoginProps = {
+    telegramBot: string | null;
+    otpPhone: string | null;
 };
 
-export default function Login({ status, canResetPassword }: Props) {
+function GoogleMark() {
     return (
-        <>
-            <Head title="Log in" />
-
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
-            >
-                {({ processing, errors }) => (
-                    <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="email"
-                                    placeholder="email@example.com"
-                                />
-                                <InputError message={errors.email} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot your password?
-                                        </TextLink>
-                                    )}
-                                </div>
-                                <PasswordInput
-                                    id="password"
-                                    name="password"
-                                    required
-                                    tabIndex={2}
-                                    autoComplete="current-password"
-                                    placeholder="Password"
-                                />
-                                <InputError message={errors.password} />
-                            </div>
-
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                className="mt-4 w-full"
-                                tabIndex={4}
-                                disabled={processing}
-                                data-test="login-button"
-                            >
-                                {processing && <Spinner />}
-                                Log in
-                            </Button>
-                        </div>
-
-                        <div className="text-center text-sm text-muted-foreground">
-                            Don't have an account?{' '}
-                            <TextLink href={register()} tabIndex={5}>
-                                Sign up
-                            </TextLink>
-                        </div>
-                    </>
-                )}
-            </Form>
-
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
-        </>
+        <svg viewBox="0 0 24 24" className="size-4" aria-hidden>
+            <path
+                fill="currentColor"
+                d="M21.35 11.1H12v2.9h5.35c-.5 2.4-2.55 3.9-5.35 3.9a5.9 5.9 0 1 1 0-11.8c1.5 0 2.85.55 3.9 1.45l2.15-2.15A8.9 8.9 0 1 0 12 20.9c5.15 0 8.8-3.6 8.8-8.7 0-.4-.05-.75-.1-1.1Z"
+            />
+        </svg>
     );
 }
 
-Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
-};
+export default function Login({ telegramBot, otpPhone }: LoginProps) {
+    const { t, locale } = useT();
+
+    const request = useForm({ phone: '' });
+    const verify = useForm({ phone: otpPhone ?? '', code: '', display_name: '' });
+
+    const sendCode = () => {
+        request.post(otpSend(locale).url, { preserveScroll: true });
+    };
+
+    const verifyCode = () => {
+        verify.transform((data) => ({ ...data, phone: otpPhone ?? data.phone }));
+        verify.post(otpVerify(locale).url, { preserveScroll: true });
+    };
+
+    return (
+        <>
+            <Head title={t('auth.sign_in_title')} />
+
+            <section className="mx-auto max-w-md px-4 py-14">
+                <header className="mb-8 text-center">
+                    <h1 className="font-display text-3xl font-extrabold tracking-tight">
+                        {t('auth.sign_in_title')}
+                    </h1>
+                    <p className="mt-2 text-sm text-mist">{t('auth.sign_in_subtitle')}</p>
+                </header>
+
+                <div className="space-y-3">
+                    <Button asChild size="lg" variant="outline" className="w-full font-medium">
+                        <a href={google().url}>
+                            <GoogleMark />
+                            {t('auth.continue_google')}
+                        </a>
+                    </Button>
+
+                    {telegramBot && (
+                        <TelegramLoginButton
+                            bot={telegramBot}
+                            authUrl={new URL('/auth/telegram/callback', window.location.origin).toString()}
+                        />
+                    )}
+                </div>
+
+                <div className="my-7 flex items-center gap-3">
+                    <Separator className="flex-1" />
+                    <span className="text-xs font-medium tracking-widest text-mist uppercase">
+                        {t('auth.or_phone')}
+                    </span>
+                    <Separator className="flex-1" />
+                </div>
+
+                {otpPhone === null ? (
+                    <form
+                        className="space-y-4"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            sendCode();
+                        }}
+                    >
+                        <div className="space-y-1.5">
+                            <Label htmlFor="phone">{t('auth.phone_label')}</Label>
+                            <Input
+                                id="phone"
+                                type="tel"
+                                inputMode="tel"
+                                autoComplete="tel"
+                                placeholder={t('auth.phone_placeholder')}
+                                value={request.data.phone}
+                                onChange={(e) => request.setData('phone', e.target.value)}
+                                className="h-11 bg-card"
+                            />
+                            {request.errors.phone && (
+                                <p className="text-sm text-ember">{request.errors.phone}</p>
+                            )}
+                        </div>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            className="w-full font-semibold"
+                            disabled={request.processing}
+                        >
+                            {t('auth.send_code')}
+                        </Button>
+                    </form>
+                ) : (
+                    <form
+                        className="space-y-4"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            verifyCode();
+                        }}
+                    >
+                        <p className="text-sm text-mist">
+                            {t('auth.code_sent_to', { phone: otpPhone })}
+                        </p>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="code">{t('auth.code_label')}</Label>
+                            <Input
+                                id="code"
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                maxLength={6}
+                                value={verify.data.code}
+                                onChange={(e) => verify.setData('code', e.target.value.replace(/\D/g, ''))}
+                                className="h-12 bg-card text-center font-display text-xl tracking-[0.4em]"
+                            />
+                            {verify.errors.code && (
+                                <p className="text-sm text-ember">{verify.errors.code}</p>
+                            )}
+                        </div>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="display_name">{t('auth.name_label')}</Label>
+                            <Input
+                                id="display_name"
+                                autoComplete="name"
+                                placeholder={t('auth.name_placeholder')}
+                                value={verify.data.display_name}
+                                onChange={(e) => verify.setData('display_name', e.target.value)}
+                                className="h-11 bg-card"
+                            />
+                        </div>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            className="w-full font-semibold"
+                            disabled={verify.processing}
+                        >
+                            {t('auth.verify_code')}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="w-full text-mist"
+                            onClick={() => window.location.assign(window.location.pathname)}
+                        >
+                            {t('auth.change_phone')}
+                        </Button>
+                    </form>
+                )}
+            </section>
+        </>
+    );
+}

@@ -2,6 +2,20 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Nominee;
+use App\Models\RaffleDraw;
+use App\Models\RaffleWinner;
+use App\Models\Setting;
+use App\Models\VoteOrder;
+use App\Models\Voter;
+use App\Observers\AuditsAdminMutations;
+use App\Services\Payments\FakeGateway;
+use App\Services\Payments\PaymentGateway;
+use App\Services\Payments\SantimPayGateway;
+use App\Services\Sms\FakeSmsSender;
+use App\Services\Sms\LogSmsSender;
+use App\Services\Sms\SmsSender;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +29,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(SmsSender::class, function (): SmsSender {
+            return match (config('ace.sms.driver')) {
+                'fake' => new FakeSmsSender,
+                default => new LogSmsSender,
+            };
+        });
+
+        $this->app->singleton(PaymentGateway::class, function (): PaymentGateway {
+            return match (config('ace.payments.driver')) {
+                'santimpay' => new SantimPayGateway,
+                default => new FakeGateway,
+            };
+        });
     }
 
     /**
@@ -24,6 +50,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->registerAdminAuditObserver();
+    }
+
+    /**
+     * Safety-net audit trail on models admins curate through Filament.
+     */
+    protected function registerAdminAuditObserver(): void
+    {
+        foreach ([
+            Category::class,
+            Nominee::class,
+            Voter::class,
+            VoteOrder::class,
+            RaffleDraw::class,
+            RaffleWinner::class,
+            Setting::class,
+        ] as $model) {
+            $model::observe(AuditsAdminMutations::class);
+        }
     }
 
     /**

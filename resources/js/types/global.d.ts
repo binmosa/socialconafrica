@@ -1,21 +1,17 @@
 import type { Auth } from '@/types/auth';
-
-declare module 'react' {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    interface InputHTMLAttributes<T> {
-        passwordrules?: string;
-    }
-}
+import type { ActiveDraw, VotingWindow } from '@/types';
 
 declare module '@inertiajs/core' {
     export interface InertiaConfig {
         sharedPageProps: {
             name: string;
             auth: Auth;
-            sidebarOpen: boolean;
-            locale: 'en' | 'am' | 'fr';
-            availableLocales: readonly ('en' | 'am' | 'fr')[];
+            locale: 'en' | 'am';
+            availableLocales: readonly ('en' | 'am')[];
             translations: { site: Record<string, unknown> };
+            votingWindow: VotingWindow;
+            activeDraw: ActiveDraw;
+            flash: { success?: string; error?: string };
             [key: string]: unknown;
         };
     }

@@ -1,7 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import { useCallback } from 'react';
 
-export type Locale = 'en' | 'am' | 'fr';
+export type Locale = 'en' | 'am';
 
 type Translations = Record<string, unknown>;
 

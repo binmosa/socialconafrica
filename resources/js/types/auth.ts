@@ -1,24 +1,10 @@
-export type User = {
+export type VoterSummary = {
     id: number;
-    name: string;
-    email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown;
+    display_name: string;
+    has_verified_phone: boolean;
+    phone_masked: string | null;
 };
 
 export type Auth = {
-    user: User;
+    voter: VoterSummary | null;
 };
-
-/* @chisel-passkeys */
-export type Passkey = {
-    id: number;
-    name: string;
-    authenticator: string | null;
-    created_at_diff: string;
-    last_used_at_diff: string | null;
-};
-/* @end-chisel-passkeys */

@@ -32,5 +32,9 @@
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="ACE_SMS_DRIVER" value="fake"/>
+        <env name="ACE_PAYMENT_DRIVER" value="fake"/>
+        <env name="TELEGRAM_BOT_TOKEN" value="123456:TEST-BOT-TOKEN"/>
+        <env name="TELEGRAM_BOT_USERNAME" value="ace_test_bot"/>
     </php>
 </phpunit>

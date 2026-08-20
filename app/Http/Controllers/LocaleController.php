@@ -29,6 +29,10 @@ class LocaleController extends Controller
             array_unshift($segments, $locale);
         }
 
-        return redirect('/'.implode('/', $segments));
+        $query = $prevHost && $prevHost !== $host
+            ? null
+            : parse_url($previous, PHP_URL_QUERY);
+
+        return redirect('/'.implode('/', $segments).($query ? '?'.$query : ''));
     }
 }

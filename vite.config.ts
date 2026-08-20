@@ -15,6 +15,12 @@ export default defineConfig({
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),
+                bunny('Bricolage Grotesque', {
+                    weights: [500, 600, 700, 800],
+                }),
+                bunny('Noto Sans Ethiopic', {
+                    weights: [400, 600, 700],
+                }),
             ],
         }),
         inertia(),

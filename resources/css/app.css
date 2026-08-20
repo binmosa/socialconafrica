@@ -4,20 +4,47 @@
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source not '../../template';
-@source not '../../public/template';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Instrument Sans', 'Noto Sans Ethiopic', ui-sans-serif, system-ui,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-display:
+        'Bricolage Grotesque', 'Noto Sans Ethiopic', ui-sans-serif, system-ui,
+        sans-serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
+
+    /*
+     * ACE "daylight festival" palette.
+     * paper      warm ivory page ground
+     * paper-soft deeper ivory section bands
+     * ink        deep indigo text (brand continuity with the old night look)
+     * veil       soft violet tint for avatar fallbacks / subtle fills
+     * mist       muted indigo-gray text
+     * gold       readable amber — for TEXT and icons on light surfaces
+     * gold-fill  bright meskel gold — for FILLS, borders, CTAs (with ink text)
+     * gold-soft  deep amber for small emphasized text
+     * ember      live/urgent markers and errors
+     * violet/pink  the social "spotlight" gradient endpoints
+     */
+    --color-paper: #fbf7f0;
+    --color-paper-soft: #f3ecdf;
+    --color-ink: #221542;
+    --color-veil: #efe9fb;
+    --color-mist: #6e6689;
+    --color-gold: #b87700;
+    --color-gold-fill: #f5b82e;
+    --color-gold-soft: #8a5800;
+    --color-ember: #d64530;
+    --color-violet: #6c3bf4;
+    --color-pink: #e5407a;
+    --color-ivory: #fbf7f0;
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -46,92 +73,35 @@
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
-
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
-}
-
+/*
+ * The voter experience commits to one appearance: light "daylight festival".
+ * shadcn tokens are mapped identically on :root and .dark so components
+ * render the same regardless of system preference.
+ */
+:root,
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+    --background: #fbf7f0;
+    --foreground: #221542;
+    --card: #ffffff;
+    --card-foreground: #221542;
+    --popover: #ffffff;
+    --popover-foreground: #221542;
+    --primary: #f5b82e;
+    --primary-foreground: #221542;
+    --secondary: #f1ead9;
+    --secondary-foreground: #221542;
+    --muted: #f1ead9;
+    --muted-foreground: #6e6689;
+    --accent: #efe9fb;
+    --accent-foreground: #4c2bb0;
+    --destructive: #d64530;
+    --destructive-foreground: #ffffff;
+    --border: rgb(34 21 66 / 0.12);
+    --input: rgb(34 21 66 / 0.16);
+    --ring: #b87700;
+    --radius: 1rem;
 }
 
 @layer base {
@@ -140,6 +110,78 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-ring;
+    }
+}
+
+@utility font-display {
+    font-family: var(--font-display);
+}
+
+/*
+ * Signature motif #1: the gold tally stroke — a short ballot-tally
+ * underline beneath the key word in headings and hero copy.
+ */
+@utility tally-underline {
+    position: relative;
+    display: inline-block;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: -0.05em;
+        right: -0.05em;
+        bottom: -0.12em;
+        height: 0.14em;
+        background: var(--color-gold-fill);
+        border-radius: 999px;
+        transform: rotate(-1.2deg);
+    }
+}
+
+/*
+ * Signature motif #2: the spotlight gradient — violet → pink → gold.
+ * Used for story-style avatar rings, progress bars and one hero wash.
+ */
+@utility bg-spotlight {
+    background-image: linear-gradient(
+        135deg,
+        var(--color-violet),
+        var(--color-pink),
+        var(--color-gold-fill)
+    );
+}
+
+@utility text-spotlight {
+    background-image: linear-gradient(
+        110deg,
+        var(--color-violet),
+        var(--color-pink),
+        var(--color-gold)
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+/* Soft, indigo-tinted elevation for cards on the ivory canvas. */
+@utility shadow-lift {
+    box-shadow:
+        0 1px 2px rgb(34 21 66 / 0.05),
+        0 12px 32px -16px rgb(34 21 66 / 0.18);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

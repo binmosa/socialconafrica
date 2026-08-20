@@ -2,16 +2,22 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\RaffleDrawStatus;
+use App\Models\RaffleDraw;
+use App\Models\Voter;
+use App\Services\Identity\PhoneNumber;
+use App\Services\Settings\SettingsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    public function __construct(private readonly SettingsService $settings) {}
+
     /**
      * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
      *
      * @var string
      */
@@ -19,8 +25,6 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
      */
     public function version(Request $request): ?string
     {
@@ -30,8 +34,6 @@ class HandleInertiaRequests extends Middleware
     /**
      * Define the props that are shared by default.
      *
-     * @see https://inertiajs.com/shared-data
-     *
      * @return array<string, mixed>
      */
     public function share(Request $request): array
@@ -40,17 +42,68 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
+                'voter' => fn (): ?array => $this->voterProps($request),
             ],
-            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale' => fn () => App::getLocale(),
             'availableLocales' => SetLocale::SUPPORTED,
-            'translations' => fn () => $this->loadTranslations(App::getLocale()),
+            'translations' => fn (): array => $this->loadTranslations(App::getLocale()),
+            'votingWindow' => fn (): array => $this->settings->votingWindow()->toArray(),
+            'activeDraw' => fn (): ?array => $this->activeDrawProps(),
             'flash' => fn (): array => [
                 'success' => $request->session()->get('success'),
-                'orderReference' => $request->session()->get('orderReference'),
+                'error' => $request->session()->get('error'),
             ],
         ];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    protected function voterProps(Request $request): ?array
+    {
+        /** @var Voter|null $voter */
+        $voter = $request->user('voter');
+
+        if ($voter === null) {
+            return null;
+        }
+
+        return [
+            'id' => $voter->id,
+            'display_name' => $voter->display_name,
+            'has_verified_phone' => $voter->hasVerifiedPhone(),
+            'phone_masked' => $voter->phone !== null
+                ? PhoneNumber::mask($voter->phone)
+                : null,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    protected function activeDrawProps(): ?array
+    {
+        return Cache::remember('ace-active-draw', 60, function (): ?array {
+            $draw = RaffleDraw::query()
+                ->where('status', RaffleDrawStatus::Open)
+                ->orderBy('opens_at')
+                ->first();
+
+            if ($draw === null) {
+                return null;
+            }
+
+            return [
+                'week_key' => $draw->week_key,
+                'closes_at' => $draw->closes_at->toIso8601String(),
+                'prizes' => collect($draw->prize_config)
+                    ->map(fn (array $prize): array => [
+                        'tier' => $prize['tier'],
+                        'label' => $prize['label'],
+                        'count' => $prize['count'],
+                    ])->all(),
+            ];
+        });
     }
 
     /**
